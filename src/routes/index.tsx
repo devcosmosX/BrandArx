@@ -17,17 +17,17 @@ export const Route = createFileRoute("/")({
 
 /* ---------- Nav ---------- */
 function Nav() {
-  const links = ["Home", "Products", "Solutions", "Customers", "Pricing", "Docs", "Resources", "Careers"];
+  const links = ["Home", "Use Cases", "Pricing", "Blog", "Docs"];
   return (
     <header className="relative z-30 flex items-center justify-between px-6 py-5 md:px-10">
       <a href="#" className="flex items-center gap-2 text-foreground">
-        <span className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-violet to-violet-glow text-[10px] font-bold">
+        <span className="grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-violet to-violet-glow text-[10px] font-bold">
           S
         </span>
-        <span className="text-lg font-semibold tracking-tight">securepay</span>
+        <span className="text-base font-semibold tracking-tight">securepay</span>
       </a>
 
-      <nav className="hidden items-center rounded-full border border-white/10 bg-white/5 px-2 py-1.5 backdrop-blur-xl md:flex">
+      <nav className="hidden items-center rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 backdrop-blur-xl md:flex">
         {links.map((l) => (
           <a
             key={l}
@@ -45,141 +45,67 @@ function Nav() {
         </a>
         <a
           href="#"
-          className="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+          className="rounded-md bg-foreground px-3.5 py-1.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
         >
-          Talk to an expert
+          Get started
         </a>
       </div>
     </header>
   );
 }
 
-/* ---------- Top announcement ---------- */
-function Announcement() {
+/* ---------- Padlock ASCII Art (deterministic, hydration-safe) ---------- */
+function PadlockAscii() {
+  const mask = [
+    "            ##########            ",
+    "          ##############          ",
+    "        ###            ###        ",
+    "       ##                ##       ",
+    "      ##                  ##      ",
+    "      ##                  ##      ",
+    "      ##                  ##      ",
+    "     ##                    ##     ",
+    "  ##########################  ",
+    " ############################ ",
+    "##############################",
+    "##############################",
+    "#############    #############",
+    "############      ############",
+    "############      ############",
+    "#############    #############",
+    "##############################",
+    "##############################",
+    "##############################",
+    " ############################ ",
+    "  ##########################  ",
+  ];
+  const pool = "0123456789ABCDEF$#+=*KQYWS%@&";
+  let s = 0x9e3779b9;
+  const rand = () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
   return (
-    <div className="relative z-30 flex justify-center pt-4">
-      <a
-        href="#"
-        className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-foreground/85 backdrop-blur-xl transition hover:bg-white/10"
-      >
-        <span className="text-violet-glow">✦</span>
-        We've raised a $25 million Series B.
-        <span className="text-violet-glow transition group-hover:translate-x-0.5">Learn more →</span>
-      </a>
-    </div>
-  );
-}
-
-/* ---------- Credit Cards ---------- */
-function CardChip() {
-  return (
-    <svg width="36" height="28" viewBox="0 0 36 28" fill="none" className="opacity-90">
-      <rect x="0.5" y="0.5" width="35" height="27" rx="4" stroke="white" strokeOpacity="0.5" />
-      <path d="M0 9h12M0 19h12M24 9h12M24 19h12M12 0v9M12 19v9M24 0v9M24 19v9" stroke="white" strokeOpacity="0.4" />
-      <rect x="12" y="9" width="12" height="10" rx="1" stroke="white" strokeOpacity="0.5" />
-    </svg>
-  );
-}
-
-function WaveIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="opacity-80">
-      <path d="M5 7c2 2 2 6 0 8M9 4c4 3 4 11 0 14M13 1c6 4 6 16 0 20" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CardDark() {
-  return (
-    <div className="card-dot-grid relative h-[220px] w-[340px] rounded-2xl bg-card-dark p-5 shadow-card-elevated ring-1 ring-white/10">
-      <div className="flex items-start justify-between">
-        <CardChip />
-        <WaveIcon />
-      </div>
-      <div className="absolute bottom-5 left-5 right-5">
-        <div className="font-mono text-lg tracking-widest text-foreground/90">5577 0000 5577 0004</div>
-        <div className="mt-3 flex justify-between text-[10px] uppercase tracking-wider text-foreground/55">
-          <div>
-            <div>Card Holder</div>
-            <div className="mt-1 text-sm normal-case tracking-normal text-foreground/90">Chris Smith</div>
-          </div>
-          <div>
-            <div>Expiry</div>
-            <div className="mt-1 text-sm normal-case tracking-normal text-foreground/90">04/28</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CardPurple() {
-  // matrix-like glyphs on the right half
-  const chars = "0123456789ABCDEF$#+=*KQYWS";
-  const rows = useMemo(
-    () =>
-      Array.from({ length: 14 }, () =>
-        Array.from({ length: 18 }, () => chars[Math.floor(Math.random() * chars.length)]).join(" "),
-      ),
-    [],
-  );
-  return (
-    <div className="relative h-[240px] w-[420px] overflow-hidden rounded-2xl bg-card-purple p-5 shadow-card-elevated ring-1 ring-white/15 shadow-violet-glow">
-      <div className="absolute inset-y-0 right-0 w-1/2 select-none p-3 font-mono text-[10px] leading-[14px] text-white/70">
-        {rows.map((r, i) => (
-          <div key={i}>{r}</div>
-        ))}
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-violet/60 via-violet/20 to-transparent" />
-      <div className="relative flex items-start justify-between">
-        <CardChip />
-        <WaveIcon />
-      </div>
-      <div className="absolute bottom-5 left-5 right-1/2">
-        <div className="font-mono text-lg tracking-widest text-white">4311 1111 1111</div>
-        <div className="mt-3 text-[10px] uppercase tracking-wider text-white/70">
-          Card Holder
-          <div className="mt-1 text-sm normal-case tracking-normal text-white">Frank Peters</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CardMatrix() {
-  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$+=*!";
-  const rows = useMemo(
-    () =>
-      Array.from({ length: 16 }, () =>
-        Array.from({ length: 36 }, () => chars[Math.floor(Math.random() * chars.length)]).join(" "),
-      ),
-    [],
-  );
-  return (
-    <div className="relative h-[240px] w-[420px] overflow-hidden rounded-2xl p-4 font-mono text-[10px] leading-[14px] text-white/75 ring-1 ring-white/10">
-      {rows.map((r, i) => (
-        <div key={i} className="whitespace-nowrap">
-          {r}
+    <pre
+      aria-hidden
+      className="select-none font-mono text-[10px] leading-[12px] text-white/85 md:text-[11px] md:leading-[13px]"
+      style={{
+        textShadow:
+          "0 0 6px rgba(200,170,255,0.55), 0 0 14px rgba(140,90,240,0.4)",
+      }}
+    >
+      {mask.map((row, y) => (
+        <div key={y}>
+          {Array.from(row)
+            .map((ch) =>
+              ch === " " ? "\u00A0\u00A0" : pool[Math.floor(rand() * pool.length)] + "\u00A0",
+            )
+            .join("")}
         </div>
       ))}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
-    </div>
-  );
-}
-
-function CardsRow() {
-  return (
-    <div className="pointer-events-none relative mx-auto flex max-w-[1400px] items-start justify-between gap-6 px-6 pt-6 md:px-12">
-      <div className="-rotate-2">
-        <CardDark />
-      </div>
-      <div className="mt-6 rotate-1">
-        <CardPurple />
-      </div>
-      <div className="-mt-2 rotate-2">
-        <CardMatrix />
-      </div>
-    </div>
+    </pre>
   );
 }
 
@@ -187,38 +113,78 @@ function CardsRow() {
 function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* gradient background */}
-      <div className="absolute inset-0 bg-hero-gradient" />
-      <div className="absolute inset-0 [background:radial-gradient(circle_at_50%_120%,rgba(170,120,255,0.55),transparent_60%)]" />
-      {/* subtle grid */}
-      <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:64px_64px]" />
+      {/* Base dark */}
+      <div className="absolute inset-0 bg-[oklch(0.08_0.03_280)]" />
+      {/* Main violet radial bloom from center-bottom */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 50% 95%, oklch(0.78 0.22 295) 0%, oklch(0.62 0.27 290) 18%, oklch(0.42 0.23 285) 38%, oklch(0.22 0.12 282) 60%, transparent 80%)",
+        }}
+      />
+      {/* Bottom soft lavender fade */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-40"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, oklch(0.86 0.07 295 / 0.55) 70%, oklch(0.92 0.05 295 / 0.85) 100%)",
+        }}
+      />
+      {/* Top vignette */}
+      <div
+        className="absolute inset-x-0 top-0 h-72"
+        style={{
+          background:
+            "linear-gradient(to bottom, oklch(0.06 0.02 280) 0%, transparent 100%)",
+        }}
+      />
 
       <div className="relative">
-        <Announcement />
         <Nav />
-        <CardsRow />
 
-        <div className="relative mx-auto max-w-4xl px-6 pb-32 pt-24 text-center">
-          <h1 className="text-5xl font-semibold tracking-tight text-foreground md:text-7xl">
-            Flexible Payments Security
-          </h1>
-          <p className="mt-6 text-2xl text-foreground/85 md:text-3xl">
-            Maximum protection, minimum compliance <span className="text-gradient-fade">burden</span>
-          </p>
-          <p className="mx-auto mt-8 max-w-xl text-base text-foreground/70">
-            Take control of your payments stack — tokenize cards, optimize margins, comply with PCI,
-            avoid gateway lock-in, or spin up card issuing programs.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-4">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-            >
-              Talk to an Expert <span aria-hidden>›</span>
-            </a>
-            <a href="#" className="text-sm text-foreground/85 hover:text-foreground">
-              Get Started
-            </a>
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pb-40 pt-16 md:grid-cols-2 md:px-10 md:pb-56 md:pt-24">
+          <div className="max-w-xl">
+            <h1 className="text-5xl font-semibold leading-[1.02] tracking-tight text-foreground md:text-7xl">
+              Effortless
+              <br />
+              Encryption for
+              <br />
+              <span className="bg-gradient-to-r from-white via-white/90 to-violet-glow bg-clip-text text-transparent">
+                Developers
+              </span>
+            </h1>
+            <p className="mt-6 max-w-md text-base text-foreground/80 md:text-lg">
+              The first encryption platform that allows you to encrypt, process,
+              and share sensitive customer data — without touching it in plaintext.
+            </p>
+            <div className="mt-8 flex items-center gap-3">
+              <a
+                href="#"
+                className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-[oklch(0.15_0.05_280)] transition hover:opacity-90"
+              >
+                Get started
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium text-foreground/90 transition hover:text-foreground"
+              >
+                Get in touch
+              </a>
+            </div>
+          </div>
+
+          <div className="relative flex items-center justify-center md:justify-end">
+            <div className="relative">
+              <div
+                className="absolute -inset-10 -z-10 rounded-full blur-3xl"
+                style={{
+                  background:
+                    "radial-gradient(closest-side, oklch(0.7 0.25 295 / 0.45), transparent 70%)",
+                }}
+              />
+              <PadlockAscii />
+            </div>
           </div>
         </div>
       </div>
