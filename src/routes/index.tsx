@@ -298,10 +298,11 @@ function VisualCardIssuing() {
     <div className="relative h-80 rounded-3xl border border-white/10 bg-card-dark p-8 shadow-card-elevated">
       <div className="absolute inset-0 rounded-3xl [background:radial-gradient(circle_at_70%_30%,rgba(170,120,255,0.25),transparent_60%)]" />
       <div className="relative flex h-full items-center justify-center">
-        <div className="rotate-[-6deg]">
-          <CardPurple />
+        <div className="rotate-[-6deg] scale-90">
+          <PadlockAscii />
         </div>
       </div>
+
     </div>
   );
 }
