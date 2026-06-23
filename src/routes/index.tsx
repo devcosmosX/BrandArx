@@ -1,54 +1,227 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Securepay — Flexible Payments Security" },
+      { title: "AgencyPro — Professional Web Development & AI Automation Services" },
       {
         name: "description",
         content:
-          "Maximum protection, minimum compliance burden. Tokenize cards, optimize margins, comply with PCI, and spin up card issuing.",
+          "Transform your business with expert web development, AI automation, UI/UX design, and digital marketing. Custom solutions for startups and enterprises.",
       },
     ],
   }),
   component: Index,
 });
 
+/* ---------- Login Button ---------- */
+function LoginButton() {
+  const { openLoginModal, isAuthenticated, user, logout } = useAuth();
+
+  if (isAuthenticated && user) {
+    return (
+      <div className="flex items-center gap-3">
+        <span className="text-sm text-foreground/80">Welcome, {user.name}!</span>
+        <button
+          onClick={logout}
+          className="inline-flex w-full items-center justify-center rounded-full border border-white/10 px-6 py-2.5 text-sm font-medium text-foreground/90 transition hover:bg-white/5 hover:text-foreground sm:w-auto sm:px-7 sm:py-3 md:text-base lg:px-8 lg:py-3.5"
+        >
+          Logout
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={openLoginModal}
+      className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-white via-white/90 to-violet-glow px-6 py-2.5 text-sm font-medium text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet/40 hover:scale-105 sm:w-auto sm:px-7 sm:py-3 md:text-base lg:px-8 lg:py-3.5"
+    >
+      Start Your Journey
+    </button>
+  );
+}
+
 /* ---------- Nav ---------- */
 function Nav() {
-  const links = ["Home", "Use Cases", "Pricing", "Blog", "Docs"];
+  const { openLoginModal } = useAuth();
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  const links = [
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "About", href: "#about" },
+    { name: "Blog", href: "#blog" },
+    { name: "Contact", href: "#contact" }
+  ];
+  
+  const serviceCategories = [
+    {
+      name: "Website Development",
+      items: ["Custom Websites", "E-commerce", "SaaS Platforms", "Landing Pages"]
+    },
+    {
+      name: "AI Automation",
+      items: ["AI Chatbots", "Workflow Automation", "CRM Integration", "Voice AI"]
+    },
+    {
+      name: "UI/UX Design",
+      items: ["Website Design", "Mobile App Design", "Dashboard Design", "Prototyping"]
+    },
+    {
+      name: "Digital Growth",
+      items: ["SEO Services", "Marketing Automation", "Analytics", "CRO"]
+    },
+  ];
+
   return (
-    <header className="relative z-30 flex items-center justify-between px-6 py-5 md:px-10">
-      <a href="#" className="flex items-center gap-2 text-foreground">
-        <span className="grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-violet to-violet-glow text-[10px] font-bold">
-          S
-        </span>
-        <span className="text-base font-semibold tracking-tight">securepay</span>
-      </a>
-
-      <nav className="hidden items-center rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 backdrop-blur-xl md:flex">
-        {links.map((l) => (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-[oklch(0.08_0.03_280)]/95 backdrop-blur-xl border-b border-white/5 py-2'
+          : 'bg-transparent py-3'
+      }`}
+    >
+      <div className="mx-auto max-w-7xl pr-6 md:pr-10" style={{ paddingLeft: '6%' }}>
+        <div className="flex items-center justify-between">
+          {/* Logo */}
           <a
-            key={l}
             href="#"
-            className="rounded-full px-4 py-1.5 text-sm text-foreground/80 transition hover:bg-white/10 hover:text-foreground"
+            className="group relative transition-transform duration-300 hover:scale-105"
           >
-            {l}
+            <div className="relative">
+              <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-white/10 to-white/10 opacity-0 blur transition-opacity duration-300 group-hover:opacity-100" />
+              <span
+                className="relative text-lg font-light tracking-tight text-white transition-colors duration-300"
+                style={{
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  letterSpacing: '-0.01em'
+                }}
+              >
+                BrandArx
+              </span>
+            </div>
           </a>
-        ))}
-      </nav>
 
-      <div className="flex items-center gap-3">
-        <a href="#" className="hidden text-sm text-foreground/80 hover:text-foreground md:inline">
-          Log in
-        </a>
-        <a
-          href="#"
-          className="rounded-md bg-foreground px-3.5 py-1.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-        >
-          Get started
-        </a>
+          {/* Navigation */}
+          <nav className="hidden items-center gap-1 lg:flex">
+            {/* Services Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
+              <button
+                className="group flex items-center gap-1.5 rounded-lg px-3 py-2 text-[14px] font-normal text-foreground/70 transition-all duration-200 hover:bg-white/5 hover:text-foreground"
+                style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+              >
+                Services
+                <ChevronDown className={`h-3.5 w-3.5 transition-all duration-300 ${isServicesOpen ? 'rotate-180 text-violet-glow' : 'text-foreground/50'}`} />
+              </button>
+              
+              {/* Dropdown Menu */}
+              <div
+                className={`absolute left-0 top-full mt-3 w-[680px] transition-all duration-300 ${
+                  isServicesOpen
+                    ? 'opacity-100 translate-y-0 pointer-events-auto'
+                    : 'opacity-0 -translate-y-4 pointer-events-none'
+                }`}
+              >
+                <div className="rounded-2xl border border-white/10 bg-[oklch(0.10_0.04_280)]/98 p-6 backdrop-blur-2xl shadow-2xl">
+                  <div className="grid grid-cols-2 gap-6">
+                    {serviceCategories.map((category, idx) => (
+                      <div
+                        key={category.name}
+                        className="group/cat"
+                        style={{
+                          animation: isServicesOpen ? `fadeInUp 0.4s ease-out ${idx * 0.1}s both` : 'none'
+                        }}
+                      >
+                        <div className="mb-3">
+                          <h3 className="text-[14px] font-semibold text-foreground">{category.name}</h3>
+                        </div>
+                        <ul className="space-y-1">
+                          {category.items.map((item) => (
+                            <li key={item}>
+                              <a
+                                href="#"
+                                className="group/item flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-foreground/60 transition-all duration-200 hover:bg-white/5 hover:pl-4 hover:text-foreground"
+                              >
+                                <span className="h-1 w-1 rounded-full bg-violet-glow opacity-0 transition-opacity duration-200 group-hover/item:opacity-100" />
+                                {item}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Regular Links */}
+            {links.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="group relative rounded-lg px-4 py-2.5 text-[15px] font-normal text-foreground/70 transition-all duration-200 hover:bg-white/5 hover:text-foreground"
+                style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+              >
+                {link.name}
+                <span className="absolute bottom-1 left-4 right-4 h-px bg-gradient-to-r from-transparent via-violet-glow to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </a>
+            ))}
+          </nav>
+
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={openLoginModal}
+              className="group relative hidden overflow-hidden rounded-xl border border-white/10 bg-white/5 px-6 py-2.5 text-[14px] font-medium text-white backdrop-blur-sm transition-all duration-300 hover:border-violet/50 hover:bg-white/10 hover:shadow-lg hover:shadow-violet/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-violet/50 focus:ring-offset-2 focus:ring-offset-[oklch(0.08_0.03_280)] active:scale-95 lg:inline-block"
+              style={{
+                fontFamily: 'Inter, system-ui, sans-serif',
+                letterSpacing: '-0.01em'
+              }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <svg className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Sign in
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-violet/20 to-violet-glow/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </button>
+            <button
+              onClick={openLoginModal}
+              className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-white via-white/90 to-violet-glow px-6 py-2.5 text-[14px] font-semibold text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/30 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-violet/50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-violet-glow focus:ring-offset-2 focus:ring-offset-[oklch(0.08_0.03_280)] active:scale-95"
+              style={{
+                fontFamily: 'Inter, system-ui, sans-serif',
+                letterSpacing: '-0.01em'
+              }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Get Started
+                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-glow/20 via-violet/20 to-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" style={{ background: 'radial-gradient(circle at center, oklch(0.65 0.27 290) 0%, transparent 70%)' }} />
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );
@@ -112,15 +285,15 @@ function PadlockAscii() {
 /* ---------- Hero ---------- */
 function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden rounded-b-[24px] md:rounded-b-[32px]">
       {/* Base dark */}
-      <div className="absolute inset-0 bg-[oklch(0.08_0.03_280)]" />
-      {/* Main violet radial bloom from center-bottom */}
+      <div className="absolute inset-0 rounded-b-[24px] bg-[oklch(0.08_0.03_280)] md:rounded-b-[32px]" />
+      {/* Main violet radial bloom from center-bottom - extended to match reference */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 70% 55% at 50% 95%, oklch(0.78 0.22 295) 0%, oklch(0.62 0.27 290) 18%, oklch(0.42 0.23 285) 38%, oklch(0.22 0.12 282) 60%, transparent 80%)",
+            "radial-gradient(ellipse 85% 70% at 50% 100%, oklch(0.78 0.22 295) 0%, oklch(0.65 0.27 290) 20%, oklch(0.50 0.25 288) 40%, oklch(0.35 0.18 285) 60%, oklch(0.22 0.12 282) 75%, transparent 90%)",
         }}
       />
       {/* Bottom soft lavender fade */}
@@ -143,47 +316,22 @@ function Hero() {
       <div className="relative">
         <Nav />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pb-40 pt-16 md:grid-cols-2 md:px-10 md:pb-56 md:pt-24">
-          <div className="max-w-xl">
-            <h1 className="text-5xl font-semibold leading-[1.02] tracking-tight text-foreground md:text-7xl">
-              Effortless
-              <br />
-              Encryption for
-              <br />
-              <span className="bg-gradient-to-r from-white via-white/90 to-violet-glow bg-clip-text text-transparent">
-                Developers
-              </span>
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center px-4 pb-24 pt-32 text-center sm:px-6 sm:pb-32 sm:pt-24 md:px-8 md:pb-40 md:pt-32 lg:px-10 lg:pb-48 lg:pt-40 xl:pb-56 xl:pt-48">
+          <div className="w-full max-w-6xl">
+            <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground drop-shadow-[0_4px_12px_rgba(139,92,246,0.3)] sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight lg:text-7xl lg:leading-[1.1] xl:text-8xl xl:leading-[1.05]">
+              Build Smarter Automate Faster Grow Revenue
             </h1>
-            <p className="mt-6 max-w-md text-base text-foreground/80 md:text-lg">
-              The first encryption platform that allows you to encrypt, process,
-              and share sensitive customer data — without touching it in plaintext.
+            <p className="mx-auto mt-4 max-w-lg text-sm text-foreground/80 sm:mt-5 sm:max-w-xl sm:text-base md:mt-6 md:max-w-2xl md:text-lg lg:mt-7 lg:max-w-3xl lg:text-xl xl:mt-8">
+              We blend strategy, design, development, and AI automation to help brands increase efficiency, improve customer experiences, and unlock new growth opportunities.
             </p>
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-7 sm:flex-row sm:gap-4 md:mt-8 lg:mt-10">
+              <LoginButton />
               <a
                 href="#"
-                className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-[oklch(0.15_0.05_280)] transition hover:opacity-90"
+                className="inline-flex w-full items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-foreground/90 transition hover:text-foreground sm:w-auto sm:px-7 sm:py-3 md:text-base lg:px-8 lg:py-3.5"
               >
-                Get started
+                Explore Capabilities
               </a>
-              <a
-                href="#"
-                className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium text-foreground/90 transition hover:text-foreground"
-              >
-                Get in touch
-              </a>
-            </div>
-          </div>
-
-          <div className="relative flex items-center justify-center md:justify-end">
-            <div className="relative">
-              <div
-                className="absolute -inset-10 -z-10 rounded-full blur-3xl"
-                style={{
-                  background:
-                    "radial-gradient(closest-side, oklch(0.7 0.25 295 / 0.45), transparent 70%)",
-                }}
-              />
-              <PadlockAscii />
             </div>
           </div>
         </div>
@@ -195,13 +343,13 @@ function Hero() {
 /* ---------- Logo ticker ---------- */
 function LogoTicker() {
   const logos = [
-    "rippling", "cartrawler", "sorare", "modern treasury", "uniswap",
-    "morse", "ramp", "stitch", "xp", "overwolf", "duffel", "humaans",
+    "TechCorp", "StartupHub", "GrowthLabs", "InnovateCo", "ScaleUp",
+    "DigitalFirst", "CloudNine", "NextGen", "FutureStack", "WebFlow", "DataDrive", "SmartBiz",
   ];
   return (
     <section className="border-y border-white/5 bg-background/60 py-16">
       <p className="mx-auto max-w-3xl px-6 text-center text-sm font-medium uppercase tracking-wider text-muted-foreground">
-        Global leaders trust Securepay to secure their most sensitive payment data
+        Trusted by innovative companies to build and scale their digital presence
       </p>
       <div className="mt-10 grid grid-cols-3 gap-8 px-6 md:grid-cols-6">
         {logos.map((l) => (
@@ -232,18 +380,18 @@ function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string })
 /* ---------- Products ---------- */
 function ProductsGrid() {
   const items = [
-    "PCI Compliance",
-    "Payments Optimization",
-    "Card Issuing",
-    "Network Tokens",
-    "Card Insights",
-    "Key Management",
-    "BIN Lookup",
-    "3D Secure",
+    "Website Development",
+    "AI Agent Automation",
+    "UI/UX Design",
+    "SEO Optimization",
+    "E-commerce Solutions",
+    "AI Chatbot Development",
+    "Brand Identity",
+    "CRM Automation",
   ];
   return (
     <section className="px-6 py-28">
-      <SectionHeading title="Accelerate your business with a first-class payments stack" />
+      <SectionHeading title="Comprehensive digital solutions to grow your business" />
       <div className="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4">
         {items.map((it) => (
           <a
@@ -253,7 +401,6 @@ function ProductsGrid() {
           >
             <div className="flex items-center justify-between">
               {it}
-              <span className="text-violet-glow opacity-0 transition group-hover:opacity-100">→</span>
             </div>
           </a>
         ))}
@@ -285,7 +432,7 @@ function FeatureBlock({
         <h3 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">{title}</h3>
         <p className="mt-5 text-base text-foreground/70">{body}</p>
         <a href="#" className="mt-6 inline-flex items-center gap-1 text-sm text-foreground hover:text-violet-glow">
-          Learn more <span aria-hidden>→</span>
+          Learn more
         </a>
       </div>
       <div className="relative">{visual}</div>
@@ -336,7 +483,7 @@ function VisualSharing() {
             i === 1 ? "bg-card-purple shadow-violet-glow text-white" : "border border-white/10 bg-white/[0.03] text-foreground/80"
           }`}
         >
-          <div className="font-mono text-2xl">{["⊡", "✦", "⊞"][i]}</div>
+          <div className="font-mono text-2xl">{["#", "*", "+"][i]}</div>
           <div className="mt-2">{label}</div>
         </div>
       ))}
@@ -353,26 +500,26 @@ function Features() {
     <section className="space-y-28 px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <FeatureBlock
-          eyebrow="Accelerate your card product"
-          title="Expedite the security and compliance requirements of launching a card product"
-          body="Improve your card's time-to-market from months to days. Tokenize cards from the issuer of your choice, store card data with minimal PCI compliance impact, and reveal raw card numbers to users."
+          eyebrow="Website Development"
+          title="Custom websites built for performance, scalability, and conversion"
+          body="From corporate websites to e-commerce platforms, we build responsive, SEO-optimized websites that drive results. Our development process ensures fast load times, seamless user experience, and easy content management."
           visual={<VisualCardIssuing />}
         />
       </div>
       <div className="mx-auto max-w-6xl">
         <FeatureBlock
-          eyebrow="Build complex card sharing workflows"
-          title="Share card data securely while keeping compliance scope to a minimum"
-          body="Flexible, compliant products for sharing card data with third-parties. Booking aggregators and platforms can forward card data to partners for storing or processing."
+          eyebrow="AI Agent Automation"
+          title="Intelligent automation that works 24/7 for your business"
+          body="Deploy AI chatbots, customer support agents, and lead generation systems that handle inquiries, book appointments, and qualify leads automatically. Integrate with WhatsApp, CRM, and your existing tools."
           visual={<VisualSharing />}
           reverse
         />
       </div>
       <div className="mx-auto max-w-6xl">
         <FeatureBlock
-          eyebrow="Optimize pay-in performance"
-          title="Improve payment costs & global coverage with a multi-processor setup"
-          body="Avoid payment processor vendor lock-in, optimize payment costs and acceptance rates by selectively routing payments to different processors."
+          eyebrow="Digital Growth"
+          title="Data-driven strategies to scale your online presence"
+          body="Comprehensive SEO optimization, conversion rate optimization, and marketing automation. We analyze, optimize, and automate your digital marketing to maximize ROI and sustainable growth."
           visual={<VisualCounter />}
         />
       </div>
@@ -384,26 +531,26 @@ function Features() {
 function EncryptionModel() {
   const items = [
     {
-      title: "Reduced risk of data breach",
-      body: "Our dual-custody model means a successful breach would require both you and us to be breached, instead of a single point of failure.",
+      title: "Fast Turnaround",
+      body: "We deliver projects on time without compromising quality. Our agile process ensures rapid development with continuous feedback and iterations.",
     },
     {
-      title: "Improve Performance",
-      body: "Create encrypted tokens without any network requests. Tokens can be encrypted in microseconds, not seconds.",
+      title: "Scalable Solutions",
+      body: "Build for today, scale for tomorrow. Our architecture and code are designed to grow with your business needs and handle increasing traffic.",
     },
     {
-      title: "Maximum resiliency",
-      body: "Avoid lock-in by storing encrypted data yourself. Keys can be shared with a third-party key escrow provider.",
+      title: "Ongoing Support",
+      body: "We don't disappear after launch. Get continuous maintenance, updates, and support to keep your digital assets running smoothly.",
     },
   ];
   return (
     <section className="relative overflow-hidden border-y border-white/5 px-6 py-28">
       <div className="absolute inset-0 [background:radial-gradient(ellipse_at_50%_0%,rgba(170,120,255,0.18),transparent_50%)]" />
       <div className="relative mx-auto max-w-5xl">
-        <SectionHeading title="Tokenization, but with a powerful and flexible encryption model" />
+        <SectionHeading title="Why businesses choose us for their digital transformation" />
         <p className="mx-auto mt-6 max-w-2xl text-center text-foreground/70">
-          Our encryption model is built different. We never store your data — we store the keys, you
-          store data as you normally would, fully encrypted.
+          We combine technical expertise with business understanding to deliver solutions that
+          not only look great but drive measurable results for your bottom line.
         </p>
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {items.map((i) => (
@@ -458,19 +605,19 @@ function DevSection() {
     <section className="px-6 py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">Built for Developers</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">Modern Tech Stack</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
-            Powered by an easy-to-use, developer friendly platform
+            Built with cutting-edge technologies for optimal performance
           </h2>
           <p className="mt-5 text-foreground/70">
-            Built to save developer time and make securing data incredibly easy. Use language-specific
-            SDKs or our REST API to integrate seamlessly into your stack.
+            We use the latest frameworks and tools to build fast, secure, and maintainable solutions.
+            From React and Next.js to AI integrations and automation platforms.
           </p>
           <a href="#" className="mt-6 inline-flex items-center gap-1 text-sm hover:text-violet-glow">
-            View our docs <span aria-hidden>→</span>
+            View our tech stack
           </a>
           <div className="mt-8 flex items-center gap-4 text-sm text-muted-foreground">
-            {["React", "Node", "Python", "Ruby", "Go"].map((s) => (
+            {["React", "Next.js", "Node.js", "AI/ML", "Cloud"].map((s) => (
               <span key={s} className="rounded-md border border-white/10 px-3 py-1.5">
                 {s}
               </span>
@@ -486,15 +633,15 @@ function DevSection() {
 /* ---------- Primitives ---------- */
 function Primitives() {
   const items = [
-    { name: "Relay", body: "An encryption proxy that encrypts or decrypts data within a network request." },
-    { name: "Functions", body: "Secure serverless functions to run logic on encrypted data outside your infrastructure." },
-    { name: "UI Components", body: "Embeddable components for collecting and displaying cardholder data without touching plaintext." },
-    { name: "Enclaves", body: "Deploy any Docker container to a Secure Enclave with zero extra provisioning." },
+    { name: "Web Development", body: "Custom websites, e-commerce platforms, and SaaS applications built with modern frameworks." },
+    { name: "AI Automation", body: "Intelligent chatbots, workflow automation, and AI agents that streamline your operations." },
+    { name: "UI/UX Design", body: "Beautiful, intuitive interfaces designed to convert visitors into customers." },
+    { name: "Growth Marketing", body: "SEO, CRO, and marketing automation strategies that drive sustainable growth." },
   ];
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Primitives" title="Composable building blocks for any payment workflow" />
+        <SectionHeading eyebrow="Our Services" title="Complete digital solutions for modern businesses" />
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {items.map((i) => (
             <div
@@ -505,7 +652,7 @@ function Primitives() {
               <h4 className="text-lg font-semibold">{i.name}</h4>
               <p className="mt-2 text-sm text-foreground/70">{i.body}</p>
               <a href="#" className="mt-4 inline-flex text-sm text-violet-glow opacity-0 transition group-hover:opacity-100">
-                Learn more →
+                Learn more
               </a>
             </div>
           ))}
@@ -608,32 +755,32 @@ function PoliciesAudit() {
 function Testimonials() {
   const quotes = [
     {
-      q: "Securepay balances flexibility and security extremely well. Clean and thoughtful abstractions over advanced security foundations — the product just works.",
-      who: "Sylvain Utard",
-      role: "Head of Platform, Sorare",
+      q: "AgencyPro transformed our online presence completely. The new website increased our conversions by 150% and the AI chatbot handles 80% of customer inquiries automatically.",
+      who: "Sarah Chen",
+      role: "CEO, TechStartup Inc",
     },
     {
-      q: "We barely have to think about it. The team ships fast and the platform feels solid under load.",
-      who: "Mike Hudack",
-      role: "CEO, Morse",
+      q: "The team delivered beyond expectations. Fast turnaround, excellent communication, and a website that truly represents our brand. Highly recommended!",
+      who: "Michael Rodriguez",
+      role: "Founder, GrowthLabs",
     },
     {
-      q: "Going from idea to a production card flow took us days, not months. The DX is unreal.",
-      who: "João Víctor Martins",
-      role: "Product Manager, XP",
+      q: "From design to deployment, everything was seamless. The AI automation they built saves us 20+ hours per week. Best investment we've made.",
+      who: "Emily Watson",
+      role: "Marketing Director, ScaleUp",
     },
   ];
   return (
     <section className="px-6 py-28">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Why trust us?" title="Secure by default. Built by paranoid engineers." />
+        <SectionHeading eyebrow="Client Success" title="Trusted by businesses that demand excellence" />
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {quotes.map((t) => (
             <figure
               key={t.who}
               className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
             >
-              <blockquote className="text-base leading-relaxed text-foreground/90">“{t.q}”</blockquote>
+              <blockquote className="text-base leading-relaxed text-foreground/90">"{t.q}"</blockquote>
               <figcaption className="mt-6 flex items-center gap-3 text-sm">
                 <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet to-violet-glow text-xs font-semibold">
                   {t.who[0]}
@@ -659,20 +806,20 @@ function CTA() {
       <div className="absolute inset-0 [background:radial-gradient(circle_at_50%_50%,rgba(170,120,255,0.4),transparent_60%)]" />
       <div className="relative mx-auto max-w-3xl text-center">
         <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
-          Enhance customer experience and maximize revenue with your payments.
+          Ready to transform your digital presence?
         </h2>
         <p className="mt-6 text-foreground/80">
-          Use Securepay's flexible building blocks to build secure and compliant payment workflows.
+          Let's build something amazing together. Get a free consultation and project quote today.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet to-violet-glow px-6 py-3 text-sm font-medium text-white shadow-lg shadow-violet/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet/40 hover:scale-105"
           >
-            Talk to an Expert →
+            Schedule a Call
           </a>
           <a href="#" className="text-sm text-foreground/85 hover:text-foreground">
-            Get Started
+            View Portfolio
           </a>
         </div>
       </div>
@@ -683,10 +830,10 @@ function CTA() {
 /* ---------- Footer ---------- */
 function Footer() {
   const cols = {
-    Products: ["PCI Compliance", "Network Tokens", "Card Issuing", "3D Secure", "BIN Lookup"],
-    Solutions: ["Payments Optimization", "Card Sharing", "Wallet Management", "Multi-PSP"],
-    Company: ["Customers", "Pricing", "Careers", "Blog", "Contact"],
-    Resources: ["Docs", "Changelog", "Status", "Security", "Trust"],
+    Services: ["Website Development", "AI Automation", "UI/UX Design", "SEO & Growth", "Branding"],
+    Solutions: ["E-commerce", "SaaS Platforms", "Corporate Sites", "Landing Pages", "Portfolios"],
+    Company: ["About Us", "Portfolio", "Careers", "Blog", "Contact"],
+    Resources: ["Case Studies", "Free Tools", "Newsletter", "Support", "FAQ"],
   };
   return (
     <footer className="border-t border-white/5 bg-background px-6 py-16">
@@ -694,13 +841,10 @@ function Footer() {
         <div className="grid gap-10 md:grid-cols-5">
           <div>
             <div className="flex items-center gap-2">
-              <span className="grid h-7 w-7 place-items-center rounded-md bg-gradient-to-br from-violet to-violet-glow text-[10px] font-bold">
-                S
-              </span>
-              <span className="text-lg font-semibold tracking-tight">securepay</span>
+              <span className="text-lg font-light tracking-tight">BrandArx</span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Flexible payments security for modern teams.
+              Digital solutions that drive real business results.
             </p>
           </div>
           {Object.entries(cols).map(([k, v]) => (
@@ -719,11 +863,11 @@ function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-xs text-muted-foreground md:flex-row">
-          <div>© {new Date().getFullYear()} Securepay. A tribute to evervault.com design language.</div>
+          <div>© {new Date().getFullYear()} BrandArx. All rights reserved.</div>
           <div className="flex gap-5">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Security</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Sitemap</a>
           </div>
         </div>
       </div>

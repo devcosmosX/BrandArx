@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AuthProvider } from "../contexts/AuthContext";
+import { LoginModal } from "../components/LoginModal";
 
 function NotFoundComponent() {
   return (
@@ -77,20 +79,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Securepay — Flexible Payments Security" },
+      { title: "BrandArx — Web Development, AI Automation & Digital Growth Agency" },
       {
         name: "description",
         content:
-          "Maximum protection, minimum compliance burden. Tokenize cards, optimize margins, comply with PCI, and spin up card issuing programs.",
+          "Full-service digital agency specializing in custom website development, AI automation, UI/UX design, and growth marketing. Transform your business with cutting-edge solutions.",
       },
-      { property: "og:title", content: "Securepay — Flexible Payments Security" },
+      { property: "og:title", content: "BrandArx — Web Development & AI Automation Agency" },
       {
         property: "og:description",
         content:
-          "Maximum protection, minimum compliance burden. Tokenize cards, optimize margins, comply with PCI.",
+          "Expert web development, AI chatbots, automation, and digital marketing services. Build, automate, and grow your business with BrandArx.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "keywords", content: "web development, AI automation, chatbot development, UI/UX design, SEO services, digital agency, website design, e-commerce development, SaaS development, AI agents" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -113,7 +116,16 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <div className="relative min-h-screen">
+          {/* Left black border with inner rounded edge from bottom */}
+          <div className="fixed left-0 top-0 z-50 h-full w-4 bg-black md:w-8" style={{ borderRadius: '0 0 50% 0' }} />
+          {/* Right black border with inner rounded edge from bottom */}
+          <div className="fixed right-0 top-0 z-50 h-full w-4 bg-black md:w-8" style={{ borderRadius: '0 0 0 50%' }} />
+          {/* Main content with rounded bottom corners */}
+          <div className="px-4 md:px-8" style={{ borderRadius: '0 0 50px 50px' }}>
+            {children}
+          </div>
+        </div>
         <Scripts />
       </body>
     </html>
@@ -125,7 +137,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider>
+        <Outlet />
+        <LoginModal />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
