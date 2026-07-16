@@ -34,8 +34,8 @@ if (!CF_APP_ID || !CF_SECRET_KEY) {
 
 // FRONTEND_URL is used for the Cashfree return_url after payment.
 // Must be publicly accessible when using Cashfree hosted checkout.
-// In dev, set FRONTEND_URL=http://localhost:8080 in your .env
-const FRONTEND_URL  = process.env.FRONTEND_URL || 'http://localhost:3001'
+// In dev, set FRONTEND_URL=http://localhost:5000 in server/.env
+const FRONTEND_URL  = process.env.FRONTEND_URL || 'http://localhost:5000'
 
 const cfHeaders = {
   'x-api-version':   CF_API_VER,
@@ -63,6 +63,22 @@ function normalisePhone(phone: string): string {
   return digits
 }
 
+// ── Trusted plan price registry ────────────────────────────────────────────────
+// Server-side source of truth. Client sends only planName; the backend
+// looks up the canonical price. This prevents price-tampering attacks
+// where a client sends planPrice=1 instead of the real ₹3500.
+const PLAN_PRICES: Record<string, number> = {
+  'Starter':      3500,
+  'Professional': 7200,
+  // Annual prices (20% off)
+  'Starter-Annual':      2800,
+  'Professional-Annual': 5760,
+}
+
+// Cashfree limits: minimum ₹1, maximum ₹5,00,000 per transaction
+const CF_MIN_AMOUNT = 1
+const CF_MAX_AMOUNT = 500_000
+
 // ── Create Order ───────────────────────────────────────────────────────────────
 
 export const createOrder = async (req: Request, res: Response) => {
@@ -81,9 +97,26 @@ export const createOrder = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Missing required fields: planName, planPrice, customerName, customerEmail, customerPhone.' })
     }
 
-    const amount = Number(planPrice)
-    if (isNaN(amount) || amount <= 0) {
-      return res.status(400).json({ message: 'planPrice must be a positive number.' })
+    // ── Server-side price verification ──────────────────────────────────────
+    // Look up the canonical price from our trusted registry.
+    // If the planName is in the registry, use that price — ignore whatever
+    // the client sent. This prevents tampering (e.g. sending planPrice=1).
+    let amount: number
+    const trustedPrice = PLAN_PRICES[planName]
+    if (trustedPrice !== undefined) {
+      amount = trustedPrice
+      if (Number(planPrice) !== trustedPrice) {
+        console.warn(`[createOrder] Price mismatch for "${planName}": client sent ${planPrice}, using trusted ${trustedPrice}`)
+      }
+    } else {
+      // Unknown / custom plan — accept client price but validate range
+      amount = Math.round(Number(planPrice) * 100) / 100  // round to 2 dp
+      if (isNaN(amount) || amount < CF_MIN_AMOUNT) {
+        return res.status(400).json({ message: `planPrice must be at least ₹${CF_MIN_AMOUNT}.` })
+      }
+      if (amount > CF_MAX_AMOUNT) {
+        return res.status(400).json({ message: `planPrice cannot exceed ₹${CF_MAX_AMOUNT.toLocaleString()}.` })
+      }
     }
 
     // Cashfree requires EITHER 10-digit Indian mobile OR E.164 international

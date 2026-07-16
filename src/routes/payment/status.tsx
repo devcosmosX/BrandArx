@@ -96,17 +96,28 @@ function PaymentStatus() {
               <div className="w-full rounded-xl border border-white/[0.07] bg-white/[0.03] p-4 text-left space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Order ID</span>
-                  <span className="font-mono text-foreground text-xs">{data?.payment?.orderId}</span>
+                  <span className="font-mono text-foreground text-xs break-all">{data?.payment?.orderId ?? '—'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Plan</span>
-                  <span className="text-foreground">{data?.payment?.planName}</span>
+                  <span className="text-foreground">
+                    {(data?.payment?.planName ?? '—').replace('-Annual', '')}
+                    {data?.payment?.planName?.includes('Annual') && (
+                      <span className="ml-1 text-[10px] text-violet-glow font-semibold uppercase tracking-wider">Annual</span>
+                    )}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Amount</span>
+                  <span className="text-muted-foreground">Amount Paid</span>
                   <span className="text-green-400 font-semibold">
-                    ₹{data?.payment?.planPrice?.toLocaleString()}
+                    {typeof data?.payment?.planPrice === 'number'
+                      ? `₹${data.payment.planPrice.toLocaleString('en-IN')}`
+                      : '—'}
                   </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Currency</span>
+                  <span className="text-foreground">{data?.payment?.currency ?? 'INR'}</span>
                 </div>
               </div>
 

@@ -47,29 +47,33 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
 
+  // Guard: "Custom" plan (Enterprise) should never reach this modal
   const price = typeof plan.price === 'number' ? plan.price : 0
+  const isCustom = typeof plan.price !== 'number' || price <= 0
 
   const validate = () => {
     const errs: Record<string, string> = {}
-    if (!form.name.trim())           errs.name  = 'Full name is required.'
-    if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Valid email is required.'
-    if (!/^\+?[0-9]{7,15}$/.test(form.phone.replace(/\s/g, ''))) errs.phone = 'Valid phone number required.'
+    if (!form.name.trim())                                          errs.name  = 'Full name is required.'
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))    errs.email = 'Valid email is required.'
+    if (!/^\+?[0-9\s\-().]{7,20}$/.test(form.phone.trim()))       errs.phone = 'Valid phone number required (7–15 digits).'
     setFormErrors(errs)
     return Object.keys(errs).length === 0
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isCustom) return          // extra safety — should not be reachable
     if (!validate()) return
 
     setStep('processing')
     setError('')
 
     try {
-      // 1. Create order on our backend
+      // 1. Create order — backend verifies price from its own registry,
+      //    so planPrice here is advisory only (server ignores it for known plans).
       const order = await createPaymentOrder({
-        planName:      plan.name,
-        planPrice:     price,
+        planName:      plan.name,          // e.g. "Starter" or "Starter-Annual"
+        planPrice:     price,              // backend will verify against PLAN_PRICES
         currency:      plan.currency || 'INR',
         customerName:  form.name.trim(),
         customerEmail: form.email.trim().toLowerCase(),
@@ -130,10 +134,22 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
         {/* Price summary */}
         <div className="relative border-b border-white/[0.07] px-6 py-4 bg-white/[0.02]">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">{plan.name} Plan · Monthly</span>
-            <span className="text-xl font-bold text-foreground">
-              {typeof plan.price === 'number' ? `₹${plan.price.toLocaleString()}` : plan.price}
+            <span className="text-sm text-muted-foreground">
+              {plan.name.replace('-Annual', '')} Plan
+              {plan.name.includes('Annual') ? ' · Annual' : ' · Monthly'}
             </span>
+            <div className="text-right">
+              <span className="text-xl font-bold text-foreground">
+                {typeof plan.price === 'number'
+                  ? `₹${plan.price.toLocaleString('en-IN')}`
+                  : plan.price}
+              </span>
+              {typeof plan.price === 'number' && (
+                <p className="text-[11px] text-muted-foreground mt-0.5">
+                  {plan.name.includes('Annual') ? 'per month, billed annually' : 'per month'}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -198,9 +214,10 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
               {/* Submit */}
               <button
                 type="submit"
-                className="mt-2 w-full rounded-xl bg-gradient-to-r from-white via-white/90 to-[oklch(0.85_0.12_290)] py-3 text-sm font-semibold text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/20 transition-all duration-300 hover:brightness-105 hover:scale-[1.01] active:scale-[0.99]"
+                disabled={isCustom}
+                className="mt-2 w-full rounded-xl bg-gradient-to-r from-white via-white/90 to-[oklch(0.85_0.12_290)] py-3 text-sm font-semibold text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/20 transition-all duration-300 hover:brightness-105 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Proceed to Payment → ₹{price.toLocaleString()}
+                Pay ₹{price.toLocaleString('en-IN')} →
               </button>
 
               {/* Trust badges */}

@@ -2097,7 +2097,13 @@ function Pricing() {
                       onClick={() => {
                         const price = plan.price[billingPeriod];
                         if (typeof price === "number") {
-                          setSelectedPlan({ name: plan.name, price, currency: "INR" });
+                          // Pass billing-period-aware plan name so the backend
+                          // looks up the correct price from PLAN_PRICES registry.
+                          // e.g. "Starter-Annual" → ₹2800, "Starter" → ₹3500
+                          const planKey = billingPeriod === "annually"
+                            ? `${plan.name}-Annual`
+                            : plan.name;
+                          setSelectedPlan({ name: planKey, price, currency: "INR" });
                         } else {
                           window.location.href = "mailto:hello@brandarx.com?subject=Enterprise%20Plan%20Inquiry";
                         }
