@@ -12,7 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../contexts/AuthContext";
-import { LoginModal } from "../components/LoginModal";
+import { AuthModal } from "../components/auth/AuthModal";
+import { CookieConsent } from "../components/CookieConsent";
 
 function NotFoundComponent() {
   return (
@@ -115,14 +116,14 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <div className="relative min-h-screen">
+      <body className="overflow-x-hidden">
+        <div className="relative min-h-screen overflow-x-hidden">
           {/* Left black border with inner rounded edge from bottom */}
-          <div className="fixed left-0 top-0 z-50 h-full w-4 bg-black md:w-8" style={{ borderRadius: '0 0 50% 0' }} />
+          <div className="fixed left-0 top-0 z-50 h-full w-1.5 bg-black sm:w-3 md:w-6" style={{ borderRadius: '0 0 50% 0' }} />
           {/* Right black border with inner rounded edge from bottom */}
-          <div className="fixed right-0 top-0 z-50 h-full w-4 bg-black md:w-8" style={{ borderRadius: '0 0 0 50%' }} />
+          <div className="fixed right-0 top-0 z-50 h-full w-1.5 bg-black sm:w-3 md:w-6" style={{ borderRadius: '0 0 0 50%' }} />
           {/* Main content with rounded bottom corners */}
-          <div className="px-4 md:px-8" style={{ borderRadius: '0 0 50px 50px' }}>
+          <div className="overflow-x-hidden px-1.5 sm:px-3 md:px-6" style={{ borderRadius: '0 0 50px 50px' }}>
             {children}
           </div>
         </div>
@@ -139,7 +140,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Outlet />
-        <LoginModal />
+        <AuthModal />
+        <CookieConsent />
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -1,10 +1,9 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -40,17 +39,17 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.13 0.04 280);
+  --background: oklch(0 0 0);
   --foreground: oklch(0.98 0.005 280);
-  --card: oklch(0.18 0.05 280);
+  --card: oklch(0.08 0.02 280);
   --card-foreground: oklch(0.98 0.005 280);
-  --popover: oklch(0.18 0.05 280);
+  --popover: oklch(0.08 0.02 280);
   --popover-foreground: oklch(0.98 0.005 280);
   --primary: oklch(0.98 0.005 280);
-  --primary-foreground: oklch(0.15 0.05 280);
-  --secondary: oklch(0.25 0.06 280);
+  --primary-foreground: oklch(0.05 0.02 280);
+  --secondary: oklch(0.14 0.03 280);
   --secondary-foreground: oklch(0.98 0.005 280);
-  --muted: oklch(0.22 0.05 280);
+  --muted: oklch(0.12 0.03 280);
   --muted-foreground: oklch(0.72 0.03 280);
   --accent: oklch(0.62 0.22 290);
   --accent-foreground: oklch(0.98 0.005 280);
@@ -68,8 +67,8 @@
       oklch(0.7 0.22 295) 0%,
       oklch(0.55 0.25 290) 25%,
       oklch(0.32 0.18 285) 55%,
-      oklch(0.15 0.06 280) 85%,
-      oklch(0.1 0.04 280) 100%
+      oklch(0.12 0.04 280) 85%,
+      oklch(0 0 0) 100%
     );
   --gradient-card-purple: linear-gradient(
     135deg,
@@ -78,16 +77,311 @@
   );
   --gradient-card-dark: linear-gradient(
     135deg,
-    oklch(0.22 0.05 280) 0%,
-    oklch(0.15 0.04 280) 100%
+    oklch(0.12 0.03 280) 0%,
+    oklch(0.06 0.02 280) 100%
   );
-  --shadow-card: 0 30px 60px -20px oklch(0 0 0 / 0.6);
+  --shadow-card: 0 30px 60px -20px oklch(0 0 0 / 0.7);
   --shadow-glow: 0 0 80px oklch(0.62 0.22 290 / 0.4);
 }
+
+/* ═══════════════════════════════════════════════════════
+   LIGHT THEME — Premium Linear / Stripe / Vercel aesthetic
+   Clean, minimal, high-contrast, no washed-out feel.
+═══════════════════════════════════════════════════════ */
+.light {
+  /* ─ Core design tokens ─ */
+  --background:        #ffffff;
+  --foreground:        #111111;
+  --card:              #ffffff;
+  --card-foreground:   #111111;
+  --popover:           #ffffff;
+  --popover-foreground:#111111;
+  --primary:           #111111;
+  --primary-foreground:#ffffff;
+  --secondary:         #fafafa;
+  --secondary-foreground: #111111;
+  --muted:             #f5f5f5;
+  --muted-foreground:  #4b5563;
+  --accent:            oklch(0.58 0.22 290);
+  --accent-foreground: #ffffff;
+  --destructive:       #dc2626;
+  --destructive-foreground: #ffffff;
+  --border:            #e5e7eb;
+  --input:             #e5e7eb;
+  --ring:              oklch(0.58 0.22 290);
+  --violet:            oklch(0.58 0.22 290);
+  --violet-glow:       oklch(0.50 0.22 290);
+
+  /* ─ Gradients ─ */
+  --gradient-hero: radial-gradient(
+    ellipse 80% 55% at 50% 100%,
+    oklch(0.72 0.18 290 / 0.35) 0%,
+    oklch(0.82 0.12 290 / 0.18) 40%,
+    transparent 70%
+  );
+  --gradient-card-dark: #ffffff;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-glow: 0 0 40px oklch(0.58 0.22 290 / 0.08);
+}
+
+/* ── Global backgrounds ── */
+.light body,
+.light main,
+.light #root { background-color: #ffffff !important; }
+
+/* ═══════════════════════════════════════════════════
+   NAVBAR — white + subtle border, dark links
+═══════════════════════════════════════════════════ */
+.light header {
+  background-color: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(12px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(1.2) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+.light header[class*="bg-[oklch(0"],
+.light header[class*="backdrop-blur"] {
+  background-color: rgba(255,255,255,0.88) !important;
+}
+
+/* Nav links & logo — always dark in light mode (even inside hero) */
+.light header .text-white,
+.light header [class*="text-white"] { color: #111111 !important; }
+.light header [class*="text-white/5"],
+.light header [class*="text-white/6"],
+.light header [class*="text-white/4"] { color: #4b5563 !important; }
+.light .nav-link-hover { color: #4b5563 !important; }
+.light .nav-link-hover:hover { color: #111111 !important; }
+.light header button[class*="hover:bg-white"] { color: #4b5563 !important; }
+.light header button[class*="hover:bg-white"]:hover {
+  background-color: #f3f4f6 !important;
+  color: #111111 !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   TEXT OVERRIDES — dark text on white
+   (Exclude hero section entirely)
+═══════════════════════════════════════════════════ */
+.light .text-white:not([data-hero-section] *),
+.light [class*="text-white"]:not([class*="text-white/"]):not([data-hero-section] *) { color: #111111 !important; }
+
+.light [class*="text-white/90"]:not([data-hero-section] *),
+.light [class*="text-white/80"]:not([data-hero-section] *),
+.light [class*="text-white/70"]:not([data-hero-section] *) { color: #1f2937 !important; }
+
+.light [class*="text-white/60"]:not([data-hero-section] *),
+.light [class*="text-white/55"]:not([data-hero-section] *),
+.light [class*="text-white/50"]:not([data-hero-section] *) { color: #4b5563 !important; }
+
+.light [class*="text-white/40"]:not([data-hero-section] *),
+.light [class*="text-white/30"]:not([data-hero-section] *),
+.light [class*="text-white/20"]:not([data-hero-section] *) { color: #6b7280 !important; }
+
+.light [class*="text-muted-foreground"],
+.light [class*="text-foreground/60"],
+.light [class*="text-foreground/70"],
+.light [class*="text-foreground/80"] { color: #4b5563 !important; }
+
+.light [class*="text-foreground/40"],
+.light [class*="text-foreground/30"] { color: #9ca3af !important; }
+
+.light [class*="text-foreground/90"] { color: #1f2937 !important; }
+
+/* ── Eyebrow accent ── */
+.light [class*="text-violet-glow"] { color: oklch(0.48 0.22 290) !important; }
+
+/* ═══════════════════════════════════════════════════
+   HERO SECTION
+   - White background (no fog/overlay)
+   - Remove top vignette
+   - Keep purple glow at bottom (softer)
+   - Heading gets dark gradient
+═══════════════════════════════════════════════════ */
+/* White base layer */
+.light [data-hero-section] > [class*="bg-[oklch(0_0_0)"] {
+  background-color: #ffffff !important;
+}
+/* Remove the top-to-transparent dark vignette */
+.light [data-hero-section] > [class*="inset-x-0"][class*="top-0"] {
+  opacity: 0 !important;
+}
+/* Slightly soften the purple bloom so it blends cleanly into white */
+.light [data-hero-section] > [class*="inset-0"]:not([class*="bg-[oklch"]) {
+  opacity: 0.75 !important;
+}
+.light [data-hero-section] > [class*="bottom-0"] {
+  opacity: 0.6 !important;
+}
+/* Hero heading — dark gradient instead of white */
+.light [data-hero-heading] span[style] {
+  background: linear-gradient(180deg, #111111 0%, #444444 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+/* Hero paragraph text — visible on white+purple bg */
+.light [data-hero-section] p {
+  color: #1f2937 !important;
+}
+/* Hero secondary link */
+.light [data-hero-section] a[class*="text-foreground"] {
+  color: #374151 !important;
+}
+.light [data-hero-section] a[class*="text-foreground"]:hover {
+  color: #111111 !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION BACKGROUNDS
+═══════════════════════════════════════════════════ */
+.light [class*="bg-[oklch(0.13"]:not([data-hero-section] *),
+.light [class*="bg-[oklch(0.15"]:not([data-hero-section] *),
+.light [class*="bg-[oklch(0.17"]:not([data-hero-section] *),
+.light [class*="bg-[oklch(0.22"]:not([data-hero-section] *) { background-color: #fafafa !important; }
+
+.light [class*="bg-background"],
+.light footer { background-color: #ffffff !important; }
+
+/* Alternating section feel */
+.light section[class*="border-y"] { background-color: #fafafa !important; }
+
+/* ═══════════════════════════════════════════════════
+   CARDS — white, light border, soft shadow
+═══════════════════════════════════════════════════ */
+.light .bg-card-dark {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.light .bg-black {
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03) !important;
+}
+.light [class*="bg-gradient-to-b"][class*="oklch(0.22"],
+.light [class*="bg-gradient-to-b"][class*="oklch(0.17"],
+.light [class*="bg-gradient-to-b"][class*="oklch(0.15"] {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.light figure[class*="bg-white/[0.03]"] {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03) !important;
+}
+.light [class*="bg-white/[0.03]"],
+.light [class*="bg-white/[0.02]"] { background-color: #fafafa !important; }
+.light [class*="bg-white/[0.05]"],
+.light [class*="bg-white/5"]      { background-color: #f5f5f5 !important; }
+.light [class*="bg-white/[0.09]"],
+.light [class*="bg-white/10"]     { background-color: #f0f0f0 !important; }
+
+/* ═══════════════════════════════════════════════════
+   BORDERS — #E5E7EB everywhere
+═══════════════════════════════════════════════════ */
+.light [class*="border-white/"]:not([data-hero-section] *) { border-color: #e5e7eb !important; }
+.light [class*="border-white/[0.07"]:not([data-hero-section] *) { border-color: #e5e7eb !important; }
+.light [class*="border-y"][class*="border-white/5"],
+.light [class*="border-b"][class*="border-white/"] { border-color: #e5e7eb !important; }
+
+/* ═══════════════════════════════════════════════════
+   DROPDOWN / POPOVER
+═══════════════════════════════════════════════════ */
+.light [class*="bg-[#0d0c1e]"] {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 10px 40px -8px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.04) !important;
+}
+.light [class*="backdrop-blur"]:not([data-hero-section] *) {
+  background-color: rgba(255,255,255,0.9) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════════ */
+.light #pricing { background-color: #ffffff !important; }
+.light [class*="bg-[oklch(0.17"] { background-color: #fafafa !important; }
+.light [class*="bg-white/5"][class*="border-white/10"] {
+  background-color: #f5f5f5 !important;
+  border-color: #e5e7eb !important;
+}
+.light [class*="bg-white/[0.05]"][class*="border-white/10"] {
+  background-color: #f5f5f5 !important;
+  border-color: #e5e7eb !important;
+}
+.light [class*="bg-white/[0.05]"][class*="border-white/10"]:hover {
+  background-color: #ebebeb !important;
+}
+.light [class*="shadow-[0_20px_40px"],
+.light [class*="shadow-[0_40px_70px"] {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06) !important;
+}
+.light [class*="shadow-black/"] {
+  --tw-shadow-color: rgba(0,0,0,0.05) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   CTA SECTION — subtle purple glow on white
+═══════════════════════════════════════════════════ */
+.light section[class*="bg-hero-gradient"],
+.light .bg-hero-gradient { background: var(--gradient-hero) !important; }
+.light section[class*="bg-hero-gradient"] h2 { color: #111111 !important; }
+.light section[class*="bg-hero-gradient"] p { color: #4b5563 !important; }
+
+/* ═══════════════════════════════════════════════════
+   CODE BLOCKS & MONO
+═══════════════════════════════════════════════════ */
+.light [class*="bg-card-dark"],
+.light [class*="font-mono"] { background-color: #fafafa !important; }
+
+/* ═══════════════════════════════════════════════════
+   LOGO TICKER / MARQUEE
+═══════════════════════════════════════════════════ */
+.light .marquee-track span { color: #9ca3af !important; }
+.light .marquee-track span:hover { color: #111111 !important; }
+.light [class*="from-background"] {
+  --tw-gradient-from: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   DOT GRID
+═══════════════════════════════════════════════════ */
+.light .card-dot-grid,
+.light [style*="oklch(1 0 0 / 0.07)"] {
+  background-image: radial-gradient(circle at center, rgba(0,0,0,0.05) 1px, transparent 1.5px) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   TEXT GRADIENT (section headings)
+═══════════════════════════════════════════════════ */
+.light .text-gradient-fade {
+  background: linear-gradient(90deg, #111111 0%, #111111 60%, oklch(0.50 0.22 290) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════ */
+.light ::-webkit-scrollbar-track { background: #fafafa; }
+.light ::-webkit-scrollbar-thumb { background: #d1d5db; }
+
+/* ═══════════════════════════════════════════════════
+   SIDE BORDER FRAMES (from __root.tsx)
+═══════════════════════════════════════════════════ */
+/* Already handled by .light .bg-black above */
 
 @layer base {
   * {
     border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   html,
@@ -96,52 +390,144 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
-@utility bg-hero-gradient {
-  background: var(--gradient-hero);
-}
-@utility bg-card-purple {
-  background: var(--gradient-card-purple);
-}
-@utility bg-card-dark {
-  background: var(--gradient-card-dark);
-}
-@utility shadow-card-elevated {
-  box-shadow: var(--shadow-card);
-}
-@utility shadow-violet-glow {
-  box-shadow: var(--shadow-glow);
-}
-@utility text-gradient-fade {
-  background: linear-gradient(
-    90deg,
-    oklch(0.98 0.005 280) 0%,
-    oklch(0.98 0.005 280) 60%,
-    oklch(0.62 0.22 290) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+@layer utilities {
+  .bg-hero-gradient {
+    background: var(--gradient-hero);
+  }
+  .bg-card-purple {
+    background: var(--gradient-card-purple);
+  }
+  .bg-card-dark {
+    background: var(--gradient-card-dark);
+  }
+  .shadow-card-elevated {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-violet-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .text-gradient-fade {
+    background: linear-gradient(
+      90deg,
+      oklch(0.98 0.005 280) 0%,
+      oklch(0.98 0.005 280) 60%,
+      oklch(0.62 0.22 290) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-@utility card-dot-grid {
-  background-image: radial-gradient(
-    circle at center,
-    oklch(1 0 0 / 0.08) 1px,
-    transparent 1.5px
-  );
-  background-size: 14px 14px;
+  .card-dot-grid {
+    background-image: radial-gradient(
+      circle at center,
+      oklch(1 0 0 / 0.08) 1px,
+      transparent 1.5px
+    );
+    background-size: 14px 14px;
+  }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Card entrance ── */
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card-reveal {
+  opacity: 0;
+}
+.card-reveal.in-view {
+  animation: cardReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── AI Agent ── */
+@keyframes nodeOrbit {
+  from { transform: rotate(0deg) translateX(72px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(72px) rotate(-360deg); }
+}
+@keyframes centralPulse {
+  0%, 100% { r: 22; opacity: 1; }
+  50%       { r: 26; opacity: 0.7; }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.85; }
+}
+
+/* ── WebDev ── */
+@keyframes floatTablet {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes floatPhone {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── UI/UX ── */
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes cursorFloat {
+  0%, 100% { transform: translate(0, 0); }
+  33%       { transform: translate(3px, -4px); }
+  66%       { transform: translate(-2px, 3px); }
+}
+
+/* ── Ecommerce ── */
+@keyframes cartFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes cursorBlink {
+  0%, 80%, 100% { opacity: 1; }
+  90%            { opacity: 0; }
+}
+
+/* ── Chatbot ── */
+@keyframes eyeGlow {
+  0%, 100% { opacity: 0.9; }
+  50%       { opacity: 0.3; }
+}
+@keyframes dot1 {
+  0%, 60%, 100% { opacity: 0.2; transform: translateY(0); }
+  30%            { opacity: 1;   transform: translateY(-3px); }
+}
+@keyframes dot2 {
+  0%, 70%, 100% { opacity: 0.2; transform: translateY(0); }
+  40%            { opacity: 1;   transform: translateY(-3px); }
+}
+@keyframes dot3 {
+  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+  50%            { opacity: 1;   transform: translateY(-3px); }
+}
+
+/* ── CRM chart ── */
+@keyframes drawLine {
+  from { stroke-dashoffset: 400; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes tooltipFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}
+@keyframes dotPop {
+  from { r: 0; opacity: 0; }
+  to   { opacity: 1; }
 }

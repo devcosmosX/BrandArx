@@ -2,12 +2,7 @@
 
 <div align="center">
 
-<img width="1802" height="1079" alt="image" src="https://github.com/user-attachments/assets/fe45201c-6903-4c60-ab27-d50f603288eb" />
-<img width="1901" height="1072" alt="image" src="https://github.com/user-attachments/assets/3990261f-ef32-4677-bfc3-ad5d7aa237c5" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b853ccb6-196e-4068-81d0-da71d6080585" />
-
-
-
+![BrandArx Hero](https://raw.githubusercontent.com/devcosmosX/BrandArx/main/screenshots/hero.png)
 
 **Build Smarter. Automate Faster. Grow Revenue.**
 
