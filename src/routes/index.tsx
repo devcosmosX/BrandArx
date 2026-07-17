@@ -1913,6 +1913,7 @@ function PoliciesAudit() {
 function Pricing() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annually">("monthly");
   const [selectedPlan, setSelectedPlan] = useState<{ name: string; price: number | string; currency?: string } | null>(null);
+  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
 
   const plans = [
     {
@@ -1921,7 +1922,7 @@ function Pricing() {
       price: { monthly: 3500, annually: 2800 },
       cta: "Choose Starter",
       highlight: false,
-      glowColor: "violet",
+      glowColor: "violet" as const,
       specs: [
         { label: "1 active request slot", icon: Layers },
         { label: "7-10 business days delivery", icon: Clock },
@@ -1943,7 +1944,7 @@ function Pricing() {
       cta: "Choose Professional",
       highlight: true,
       badge: "Most Popular",
-      glowColor: "orange",
+      glowColor: "violet" as const,
       specs: [
         { label: "2 active request slots", icon: Layers },
         { label: "Priority 48-hour delivery", icon: Clock },
@@ -1967,7 +1968,7 @@ function Pricing() {
       cta: "Contact Sales",
       highlight: false,
       badge: "Custom Solution",
-      glowColor: "teal",
+      glowColor: "violet" as const,
       specs: [
         { label: "Unlimited active requests", icon: Layers },
         { label: "Next-day delivery available", icon: Clock },
@@ -1986,120 +1987,224 @@ function Pricing() {
 
   return (
     <>
-    <section id="pricing" className="relative overflow-hidden bg-background px-6 py-28">
-      {/* Site-theme violet ambient — top + bottom */}
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_80%_50%_at_50%_0%,oklch(0.62_0.22_290_/_0.13),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_60%_40%_at_50%_100%,oklch(0.62_0.22_290_/_0.06),transparent_70%)]" />
+    <section id="pricing" className="relative overflow-hidden py-28 sm:py-36">
 
-      <div className="relative mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Pricing Plans" title="Transparent, high-value creative subscriptions" />
-        <p className="mx-auto mt-5 max-w-2xl px-4 text-center text-sm text-foreground/60 sm:mt-6 sm:px-0 sm:text-base">
-          Supercharge your brand with design, development, and marketing automation.
-          Simple monthly pricing. Cancel or pause anytime.
-        </p>
+      {/* ── Deep dark canvas ── */}
+      <div className="absolute inset-0 bg-[oklch(0.06_0.02_280)]" />
+      {/* top & bottom page-blends */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent" />
 
-        {/* Billing Period Toggle */}
-        <div className="flex items-center justify-center gap-3 mt-10">
-          <span className={`text-sm font-medium transition-colors duration-200 ${billingPeriod === "monthly" ? "text-foreground" : "text-muted-foreground"}`}>Monthly</span>
-          <button
-            onClick={() => setBillingPeriod(billingPeriod === "monthly" ? "annually" : "monthly")}
-            className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
-            style={{ background: billingPeriod === "annually" ? "oklch(0.62 0.22 290)" : "oklch(1 0 0 / 12%)" }}
-            role="switch"
-            aria-checked={billingPeriod === "annually"}
-            aria-label="Toggle billing period"
-          >
-            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${billingPeriod === "annually" ? "translate-x-5" : "translate-x-0"}`} />
-          </button>
-          <span className={`text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${billingPeriod === "annually" ? "text-foreground" : "text-muted-foreground"}`}>
-            Annually
-            <span className="rounded-full border border-violet-glow/30 bg-violet-glow/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-violet-glow">Save 20%</span>
-          </span>
+      {/* ── Ambient glow blobs ── */}
+      {/* large violet — top-left */}
+      <div className="pointer-events-none absolute -top-60 -left-40 h-[700px] w-[700px] rounded-full opacity-[0.18]"
+        style={{ background: "radial-gradient(circle,oklch(0.62 0.22 290) 0%,transparent 70%)", filter: "blur(80px)" }} />
+      {/* cyan accent — bottom-right */}
+      <div className="pointer-events-none absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full opacity-[0.12]"
+        style={{ background: "radial-gradient(circle,oklch(0.75 0.18 210) 0%,transparent 70%)", filter: "blur(80px)" }} />
+      {/* indigo — center */}
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full opacity-[0.07]"
+        style={{ background: "radial-gradient(circle,oklch(0.55 0.25 270) 0%,transparent 70%)", filter: "blur(100px)" }} />
+      {/* subtle dot-grid noise */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.025]"
+        style={{ backgroundImage: "radial-gradient(circle,oklch(1 0 0) 1px,transparent 1px)", backgroundSize: "28px 28px" }} />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+
+        {/* ── Section header ── */}
+        <div className="text-center">
+          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-violet-glow mb-4">Pricing Plans</p>
+          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            <span
+              style={{
+                background: "linear-gradient(135deg, oklch(0.98 0.005 280) 0%, oklch(0.98 0.005 280) 50%, oklch(0.78 0.18 295) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Transparent pricing,
+            </span>
+            <br />
+            <span
+              style={{
+                background: "linear-gradient(135deg, oklch(0.78 0.18 295) 0%, oklch(0.72 0.20 260) 50%, oklch(0.75 0.18 210) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              real creative value.
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-sm text-foreground/50 sm:text-base leading-relaxed">
+            Supercharge your brand with design, development, and marketing automation.
+            Simple monthly pricing. Cancel or pause anytime.
+          </p>
         </div>
 
-        {/* Pricing Cards Grid */}
-        <div className="mt-10 grid gap-6 grid-cols-1 md:grid-cols-3 items-stretch sm:mt-16">
-          {plans.map((plan) => {
-            const hasBadge = plan.badge;
-            const isHighlight = plan.highlight;
+        {/* ── Billing toggle — pill-style sliding indicator ── */}
+        <div className="mt-10 flex items-center justify-center">
+          <div className="relative flex items-center rounded-2xl border border-white/[0.09] bg-white/[0.04] p-1 backdrop-blur-sm">
+            {/* sliding pill */}
+            <div
+              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-xl bg-white/[0.10] border border-white/[0.12] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+              style={{ left: billingPeriod === "monthly" ? "4px" : "calc(50%)" }}
+            />
+            <button
+              onClick={() => setBillingPeriod("monthly")}
+              className={`relative z-10 px-6 py-2.5 text-sm font-medium rounded-xl transition-colors duration-200 ${billingPeriod === "monthly" ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"}`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingPeriod("annually")}
+              className={`relative z-10 flex items-center gap-2 px-6 py-2.5 text-sm font-medium rounded-xl transition-colors duration-200 ${billingPeriod === "annually" ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"}`}
+            >
+              Annually
+              <span className="rounded-full bg-violet/25 border border-violet-glow/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-violet-glow">
+                −20%
+              </span>
+            </button>
+          </div>
+        </div>
 
-            const cardBg = isHighlight
-              ? "bg-gradient-to-b from-[oklch(0.22_0.08_285)] to-[oklch(0.15_0.05_280)]"
-              : "bg-gradient-to-b from-[oklch(0.17_0.05_280)] to-[oklch(0.13_0.04_280)]";
-            const cardBorder = isHighlight
-              ? "border-[oklch(0.62_0.22_290_/_0.45)]"
-              : "border-white/[0.07] hover:border-white/[0.14]";
-            const cardScale = isHighlight ? "lg:scale-[1.04] z-10" : "";
-            const cardShadow = isHighlight
-              ? "shadow-[0_0_0_1px_oklch(0.62_0.22_290_/_0.25),0_40px_70px_-10px_oklch(0_0_0_/_0.6),0_0_50px_oklch(0.62_0.22_290_/_0.12)]"
-              : "shadow-[0_20px_40px_-10px_oklch(0_0_0_/_0.4)] hover:shadow-[0_30px_60px_-10px_oklch(0_0_0_/_0.55)]";
-            const buttonClass = isHighlight
-              ? "w-full rounded-xl bg-gradient-to-r from-white via-white/90 to-[oklch(0.85_0.12_290)] py-3 text-sm font-semibold text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/20 transition-all duration-300 hover:brightness-105 hover:scale-[1.02] hover:shadow-xl hover:shadow-violet/30 cursor-pointer"
-              : "w-full rounded-xl border border-white/10 bg-white/[0.05] py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-white/[0.09] hover:border-white/20 hover:scale-[1.02] cursor-pointer";
-            const iconBg = isHighlight
-              ? "bg-gradient-to-br from-[oklch(0.72_0.22_290)] to-[oklch(0.55_0.25_285)] shadow-[0_0_20px_oklch(0.62_0.22_290_/_0.45)]"
-              : "bg-[oklch(0.62_0.22_290_/_0.1)] border border-[oklch(0.62_0.22_290_/_0.2)] shadow-[0_0_12px_oklch(0.62_0.22_290_/_0.12)]";
+        {/* ── Cards grid ── */}
+        <div className="mt-14 grid gap-5 grid-cols-1 md:grid-cols-3 md:items-stretch sm:mt-16">
+          {plans.map((plan, planIdx) => {
+            const isHighlight = plan.highlight;
+            const isHovered   = hoveredPlan === plan.name;
+            const currentPrice = plan.price[billingPeriod];
 
             return (
               <div
                 key={plan.name}
-                className={`relative overflow-hidden rounded-[28px] p-8 flex flex-col justify-between border ${cardBg} ${cardBorder} ${cardScale} ${cardShadow} transition-all duration-300`}
+                onMouseEnter={() => setHoveredPlan(plan.name)}
+                onMouseLeave={() => setHoveredPlan(null)}
+                style={{ animationDelay: `${planIdx * 80}ms` }}
+                className={[
+                  // base layout
+                  "relative overflow-hidden rounded-[28px] flex flex-col border",
+                  "transition-all duration-300 ease-out",
+                  // lift on hover
+                  isHovered && !isHighlight ? "-translate-y-2" : "",
+                  // highlighted card — glowing ring + scale
+                  isHighlight
+                    ? [
+                        "z-10 md:scale-[1.04]",
+                        "bg-gradient-to-b from-[oklch(0.17_0.06_285)] via-[oklch(0.13_0.05_282)] to-[oklch(0.10_0.04_280)]",
+                        "border-[oklch(0.62_0.22_290_/_0.50)]",
+                        "shadow-[0_0_0_1px_oklch(0.62_0.22_290_/_0.20),0_32px_64px_-8px_oklch(0_0_0_/_0.7),0_0_60px_-10px_oklch(0.62_0.22_290_/_0.25)]",
+                        isHovered ? "shadow-[0_0_0_1px_oklch(0.62_0.22_290_/_0.35),0_40px_80px_-8px_oklch(0_0_0_/_0.8),0_0_80px_-10px_oklch(0.62_0.22_290_/_0.40)] -translate-y-1" : "",
+                      ].join(" ")
+                    : [
+                        "bg-gradient-to-b from-[oklch(0.12_0.03_282)] to-[oklch(0.09_0.025_280)]",
+                        "border-white/[0.08]",
+                        isHovered
+                          ? "border-white/[0.16] shadow-[0_32px_64px_-8px_oklch(0_0_0_/_0.6),0_0_40px_-10px_oklch(0.62_0.22_290_/_0.15)]"
+                          : "shadow-[0_16px_40px_-8px_oklch(0_0_0_/_0.5)]",
+                      ].join(" "),
+                ].join(" ")}
               >
-                {/* Violet glow bloom — always violet */}
+                {/* ── Per-card ambient glow ── */}
                 <div
-                  className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[140%] h-56 blur-2xl"
-                  style={{ background: `radial-gradient(ellipse at center, oklch(0.62 0.22 290 / ${isHighlight ? "0.28" : "0.12"}) 0%, transparent 70%)` }}
+                  className="pointer-events-none absolute -top-28 left-1/2 -translate-x-1/2 w-[160%] h-64 blur-3xl"
+                  style={{
+                    background: `radial-gradient(ellipse at center, oklch(0.62 0.22 290 / ${isHighlight ? "0.30" : isHovered ? "0.14" : "0.08"}) 0%, transparent 70%)`,
+                    transition: "background 0.3s ease",
+                  }}
                 />
-                {/* Dot grid */}
-                <div className="pointer-events-none absolute inset-0 rounded-[28px] opacity-50" style={{
-                  backgroundImage: "radial-gradient(circle at center, oklch(1 0 0 / 0.07) 1px, transparent 1.5px)",
-                  backgroundSize: "14px 14px"
-                }} />
+                {/* ── Dot-grid texture ── */}
+                <div className="pointer-events-none absolute inset-0 opacity-40"
+                  style={{
+                    backgroundImage: "radial-gradient(circle at center,oklch(1 0 0 / 0.07) 1px,transparent 1.5px)",
+                    backgroundSize: "14px 14px",
+                  }}
+                />
+                {/* ── Top edge accent line ── */}
+                <div className={[
+                  "pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent transition-opacity duration-300",
+                  isHighlight ? "via-violet-glow/60 opacity-100" : isHovered ? "via-white/20 opacity-100" : "via-white/8 opacity-60",
+                ].join(" ")} />
 
-                <div className="relative">
-                  {/* Card Header */}
-                  <div className="flex items-start justify-between">
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-full text-white ${iconBg}`}>
-                      {plan.glowColor === "violet" && <Zap className="h-5 w-5" />}
-                      {plan.glowColor === "orange" && <Sparkles className="h-5 w-5" />}
-                      {plan.glowColor === "teal" && <ShieldCheck className="h-5 w-5" />}
+                <div className="relative flex flex-col h-full p-7 sm:p-8">
+
+                  {/* ── Card top: icon + badge ── */}
+                  <div className="flex items-start justify-between mb-6">
+                    {/* Icon tile */}
+                    <div className={[
+                      "flex h-12 w-12 items-center justify-center rounded-2xl text-white transition-all duration-300",
+                      isHighlight
+                        ? "bg-gradient-to-br from-violet to-[oklch(0.55_0.25_285)] shadow-[0_0_24px_oklch(0.62_0.22_290_/_0.5)]"
+                        : isHovered
+                          ? "bg-[oklch(0.62_0.22_290_/_0.20)] border border-[oklch(0.62_0.22_290_/_0.35)] shadow-[0_0_16px_oklch(0.62_0.22_290_/_0.20)]"
+                          : "bg-[oklch(0.62_0.22_290_/_0.10)] border border-[oklch(0.62_0.22_290_/_0.18)]",
+                    ].join(" ")}>
+                      {plan.glowColor === "violet" && plan.name === "Starter"      && <Zap className="h-5 w-5" />}
+                      {plan.glowColor === "violet" && plan.name === "Professional" && <Sparkles className="h-5 w-5" />}
+                      {plan.glowColor === "violet" && plan.name === "Enterprise"   && <ShieldCheck className="h-5 w-5" />}
                     </div>
-                    {hasBadge && (
-                      <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${isHighlight ? "border border-violet/40 bg-violet/15 text-violet-glow" : "border border-white/10 bg-white/5 text-foreground/55"}`}>
+                    {/* Badge */}
+                    {plan.badge && (
+                      <span className={[
+                        "rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300",
+                        isHighlight
+                          ? "border border-violet/50 bg-violet/20 text-violet-glow shadow-[0_0_12px_oklch(0.62_0.22_290_/_0.25)]"
+                          : "border border-white/[0.12] bg-white/[0.06] text-foreground/50",
+                      ].join(" ")}>
                         {plan.badge}
                       </span>
                     )}
                   </div>
 
-                  {/* Plan Name & Description */}
-                  <h3 className="mt-6 text-2xl font-bold tracking-tight text-foreground">{plan.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{plan.description}</p>
+                  {/* ── Plan name + description ── */}
+                  <h3 className={[
+                    "text-xl font-bold tracking-tight transition-colors duration-200",
+                    isHighlight ? "text-foreground" : isHovered ? "text-foreground" : "text-foreground/85",
+                  ].join(" ")}>
+                    {plan.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-foreground/45 leading-relaxed">{plan.description}</p>
 
-                  {/* Price */}
-                  {typeof plan.price[billingPeriod] === "number" ? (
-                    <div className="flex items-baseline gap-1 mt-5">
-                      <span className="text-base font-medium text-muted-foreground">₹</span>
-                      <span className="text-5xl font-extrabold tracking-tight text-foreground">
-                        {plan.price[billingPeriod].toLocaleString()}
+                  {/* ── Price ── */}
+                  <div className="mt-7 flex items-baseline gap-1.5">
+                    {typeof currentPrice === "number" ? (
+                      <>
+                        <span className="text-lg font-semibold text-foreground/40">₹</span>
+                        <span className={[
+                          "text-5xl font-extrabold tracking-tight leading-none transition-all duration-300",
+                          isHighlight ? "text-foreground" : "text-foreground/90",
+                        ].join(" ")}>
+                          {currentPrice.toLocaleString("en-IN")}
+                        </span>
+                        <div className="ml-1 flex flex-col">
+                          <span className="text-sm font-medium text-foreground/35 leading-none">/ mo</span>
+                          {billingPeriod === "annually" && (
+                            <span className="text-[11px] text-violet-glow/70 mt-1 leading-none">billed annually</span>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-5xl font-extrabold tracking-tight text-foreground/90">
+                        Custom
                       </span>
-                      <span className="text-sm font-medium text-muted-foreground ml-1">/ mo</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-baseline gap-1 mt-5">
-                      <span className="text-5xl font-extrabold tracking-tight text-foreground">Custom</span>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
-                  {/* CTA */}
+                  {/* ── CTA button ── */}
                   <div className="mt-8">
                     <button
-                      className={buttonClass}
+                      className={[
+                        "w-full rounded-2xl py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 cursor-pointer",
+                        isHighlight
+                          ? "bg-gradient-to-r from-violet to-violet-glow text-white shadow-[0_0_24px_oklch(0.62_0.22_290_/_0.40)] hover:shadow-[0_0_36px_oklch(0.62_0.22_290_/_0.60)] hover:scale-[1.02] hover:from-[oklch(0.68_0.22_290)] hover:to-[oklch(0.82_0.18_295)]"
+                          : "border border-white/[0.12] bg-white/[0.05] text-foreground/80 hover:bg-white/[0.10] hover:border-white/[0.22] hover:text-foreground hover:scale-[1.02]",
+                      ].join(" ")}
                       onClick={() => {
                         const price = plan.price[billingPeriod];
                         if (typeof price === "number") {
-                          // Pass billing-period-aware plan name so the backend
-                          // looks up the correct price from PLAN_PRICES registry.
-                          // e.g. "Starter-Annual" → ₹2800, "Starter" → ₹3500
+                          // Billing-period-aware planName for backend PLAN_PRICES registry
+                          // "Starter-Annual" → ₹2800 | "Starter" → ₹3500
                           const planKey = billingPeriod === "annually"
                             ? `${plan.name}-Annual`
                             : plan.name;
@@ -2113,38 +2218,63 @@ function Pricing() {
                     </button>
                   </div>
 
-                  {/* Specs */}
-                  <div className="mt-8 space-y-3 border-t border-white/[0.06] pt-6">
+                  {/* ── Specs ── */}
+                  <div className="mt-7 space-y-2.5 border-t border-white/[0.06] pt-6">
                     {plan.specs.map((spec, sIdx) => {
                       const IconComp = spec.icon;
                       return (
-                        <div key={sIdx} className="flex items-center gap-3 text-sm text-muted-foreground">
-                          <IconComp className="h-4 w-4 text-violet-glow/60 shrink-0" />
-                          <span>{spec.label}</span>
+                        <div key={sIdx} className="flex items-center gap-2.5 text-sm">
+                          <span className={[
+                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
+                            isHighlight ? "bg-violet/20 text-violet-glow" : "bg-white/[0.06] text-foreground/40",
+                          ].join(" ")}>
+                            <IconComp className="h-3.5 w-3.5" />
+                          </span>
+                          <span className="text-foreground/55">{spec.label}</span>
                         </div>
                       );
                     })}
                   </div>
 
-                  {/* Divider */}
-                  <div className="relative flex items-center my-6">
-                    <div className="w-full border-t border-white/[0.06] border-dashed" />
-                    <span className="absolute left-1/2 -translate-x-1/2 bg-[oklch(0.17_0.05_280)] px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/30 whitespace-nowrap">
-                      · Included ·
+                  {/* ── Divider ── */}
+                  <div className="relative flex items-center my-7">
+                    <div className="w-full border-t border-white/[0.07]" />
+                    <span className={[
+                      "absolute left-1/2 -translate-x-1/2 px-3 text-[10px] font-bold uppercase tracking-[0.22em] whitespace-nowrap",
+                      "bg-[oklch(0.12_0.03_282)]",
+                      isHighlight ? "text-violet-glow/50" : "text-foreground/25",
+                    ].join(" ")}>
+                      Included
                     </span>
                   </div>
 
-                  {/* Features List */}
-                  <ul className="space-y-3.5">
+                  {/* ── Features list ── */}
+                  <ul className="space-y-3 flex-1">
                     {plan.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="flex items-start gap-3">
-                        <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${isHighlight ? "bg-violet/20 border border-violet/30 text-violet-glow" : "bg-white/5 border border-white/10 text-foreground/50"}`}>
+                      <li key={fIdx} className="group/feat flex items-start gap-3">
+                        {/* Checkmark */}
+                        <div className={[
+                          "mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-all duration-200",
+                          isHighlight
+                            ? "bg-violet/25 border border-violet/40 text-violet-glow"
+                            : "bg-white/[0.06] border border-white/[0.12] text-foreground/45 group-hover/feat:bg-violet/15 group-hover/feat:border-violet/25 group-hover/feat:text-violet-glow/70",
+                        ].join(" ")}>
                           <Check className="h-3 w-3" />
                         </div>
                         <div className="flex flex-wrap items-center gap-1.5 text-sm">
-                          <span className="text-foreground/75 leading-relaxed">{feat.name}</span>
+                          <span className={[
+                            "leading-relaxed transition-colors duration-150",
+                            isHighlight ? "text-foreground/80" : "text-foreground/60 group-hover/feat:text-foreground/80",
+                          ].join(" ")}>
+                            {feat.name}
+                          </span>
                           {feat.tag && (
-                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${isHighlight ? "border border-violet/30 bg-violet/10 text-violet-glow" : "border border-white/10 bg-white/5 text-foreground/50"}`}>
+                            <span className={[
+                              "inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider",
+                              isHighlight
+                                ? "border border-violet/35 bg-violet/12 text-violet-glow"
+                                : "border border-white/[0.10] bg-white/[0.04] text-foreground/40",
+                            ].join(" ")}>
                               {feat.tag}
                             </span>
                           )}
@@ -2157,10 +2287,15 @@ function Pricing() {
             );
           })}
         </div>
+
+        {/* ── Bottom trust line ── */}
+        <p className="mt-12 text-center text-sm text-foreground/30">
+          No lock-in contracts · Pause or cancel anytime · Invoiced in INR
+        </p>
       </div>
     </section>
 
-    {/* Payment Modal */}
+    {/* Payment Modal — unchanged, all props preserved */}
     {selectedPlan && (
       <PaymentModal
         plan={selectedPlan}
@@ -2570,139 +2705,200 @@ type ServiceId = (typeof SERVICES)[number]["id"];
 
 function ServicesOffering() {
   const [activeId, setActiveId] = useState<ServiceId>("software-development");
-  const active = SERVICES.find((s) => s.id === activeId)!;
+  const activeIdx = SERVICES.findIndex((s) => s.id === activeId);
+  const active = SERVICES[activeIdx];
   const Icon = active.icon;
 
   return (
-    <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      {/* ambient violet bloom */}
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_70%_50%_at_50%_0%,oklch(0.62_0.22_290_/_0.10),transparent_65%)]" />
+    <section className="relative overflow-hidden py-24 sm:py-32">
+      {/* deep section background */}
+      <div className="absolute inset-0 bg-[oklch(0.07_0.02_280)]" />
+      {/* top fade from page bg */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent" />
+      {/* bottom fade to page bg */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      {/* large violet bloom — top-right */}
+      <div className="pointer-events-none absolute -top-40 right-0 h-[600px] w-[600px] rounded-full bg-violet/[0.08] blur-[120px]" />
+      {/* subtle noise grid */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{ backgroundImage:"radial-gradient(circle,oklch(1 0 0)_1px,transparent_1px)", backgroundSize:"24px 24px" }} />
 
-      <div className="relative mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Explore Our Offering" title="What we do, end to end" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
 
-        {/* row count pill */}
-        <p className="mx-auto mt-4 text-center text-sm text-foreground/40">
-          {SERVICES.length} practice areas · end-to-end delivery
-        </p>
+        {/* ── Header ── */}
+        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between mb-14 sm:mb-16">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-violet-glow mb-3">
+              Explore Our Offering
+            </p>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              What we do,{" "}
+              <span className="text-gradient-fade">end to end</span>
+            </h2>
+          </div>
+          <p className="text-sm text-foreground/40 sm:text-right sm:max-w-[220px] leading-relaxed">
+            {SERVICES.length} practice areas.<br className="hidden sm:block" />
+            One integrated partner.
+          </p>
+        </div>
 
-        <div className="mt-10 sm:mt-12 flex flex-col gap-4 lg:flex-row lg:gap-8 lg:items-start">
+        {/* ── Main layout: sidebar + panel ── */}
+        <div className="flex flex-col gap-3 lg:flex-row lg:gap-0 lg:rounded-3xl lg:border lg:border-white/[0.07] lg:overflow-hidden lg:bg-[oklch(0.09_0.025_280)]">
 
-          {/* ── Left sidebar ── */}
+          {/* ── LEFT: tab list ── */}
           <nav
             aria-label="Service categories"
-            className="flex flex-row flex-wrap gap-2 lg:flex-col lg:w-60 lg:shrink-0 lg:gap-px"
+            className="flex flex-row flex-wrap gap-2 p-2
+                       lg:flex-col lg:w-72 lg:shrink-0 lg:gap-0 lg:p-3
+                       lg:border-r lg:border-white/[0.06]"
           >
-            {SERVICES.map((s) => {
+            {SERVICES.map((s, i) => {
               const isActive = s.id === activeId;
               const SideIcon = s.icon;
               return (
                 <button
                   key={s.id}
                   onClick={() => setActiveId(s.id)}
-                  className={[
-                    "group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium transition-all duration-200 w-full",
-                    isActive
-                      ? "bg-white/[0.07] border border-white/[0.12] text-foreground"
-                      : "border border-transparent text-foreground/50 hover:text-foreground/85 hover:bg-white/[0.04]",
-                  ].join(" ")}
                   aria-current={isActive ? "true" : undefined}
+                  className={[
+                    "group relative flex items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-all duration-200 w-auto lg:w-full",
+                    isActive
+                      ? "bg-white/[0.08] text-foreground"
+                      : "text-foreground/45 hover:text-foreground/80 hover:bg-white/[0.04]",
+                  ].join(" ")}
                 >
-                  {/* icon badge */}
-                  <span
-                    className={[
-                      "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-200",
-                      isActive
-                        ? "bg-violet/25 text-violet-glow shadow-[0_0_10px_oklch(0.62_0.22_290_/_0.30)]"
-                        : "bg-white/[0.05] text-foreground/35 group-hover:bg-white/[0.09] group-hover:text-foreground/60",
-                    ].join(" ")}
-                  >
-                    <SideIcon className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="leading-tight">{s.label}</span>
-                  {/* active chevron */}
+                  {/* active left bar */}
                   {isActive && (
-                    <ArrowRight className="ml-auto h-3.5 w-3.5 text-violet-glow/60 shrink-0" />
+                    <span className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-violet-glow shadow-[0_0_8px_oklch(0.78_0.18_295)]" />
                   )}
+                  {/* icon */}
+                  <span className={[
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-200",
+                    isActive
+                      ? "bg-gradient-to-br from-violet/40 to-violet/15 text-violet-glow shadow-[0_0_14px_oklch(0.62_0.22_290_/_0.35)]"
+                      : "bg-white/[0.04] text-foreground/30 group-hover:bg-white/[0.07] group-hover:text-foreground/55",
+                  ].join(" ")}>
+                    <SideIcon className="h-4 w-4" />
+                  </span>
+                  <span className="flex-1 leading-snug">{s.label}</span>
+                  {/* index number */}
+                  <span className={[
+                    "hidden lg:block text-[11px] tabular-nums font-mono transition-colors",
+                    isActive ? "text-violet-glow/50" : "text-foreground/20 group-hover:text-foreground/35",
+                  ].join(" ")}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </button>
               );
             })}
           </nav>
 
-          {/* ── Right panel ── */}
+          {/* ── RIGHT: detail panel ── */}
           <div
             key={activeId}
-            className="relative flex-1 overflow-hidden rounded-2xl border border-white/[0.09] bg-white/[0.025] p-6 sm:p-8 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            className="flex-1 min-w-0 relative overflow-hidden
+                       rounded-2xl border border-white/[0.07] bg-[oklch(0.09_0.025_280)]
+                       lg:rounded-none lg:border-0 lg:bg-transparent
+                       animate-in fade-in duration-300"
           >
-            {/* inner corner bloom */}
-            <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-violet/[0.12] blur-3xl" />
-            {/* top edge accent line */}
-            <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-glow/35 to-transparent" />
+            {/* panel corner bloom */}
+            <div className="pointer-events-none absolute -top-32 -right-32 h-80 w-80 rounded-full bg-violet/[0.10] blur-[80px]" />
+            {/* top accent line */}
+            <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-glow/30 to-transparent" />
 
-            {/* header row: icon + eyebrow + stat */}
-            <div className="relative flex items-start justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet/30 to-violet/10 text-violet-glow shadow-[0_0_20px_oklch(0.62_0.22_290_/_0.25)] border border-violet/20">
-                  <Icon className="h-5 w-5" />
+            <div className="relative p-6 sm:p-10">
+
+              {/* ── Top meta row ── */}
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                {/* icon + eyebrow */}
+                <div className="flex items-center gap-3.5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-violet/25 bg-gradient-to-br from-violet/30 to-violet/10 text-violet-glow shadow-[0_0_24px_oklch(0.62_0.22_290_/_0.3)]">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-violet-glow">
+                      {active.eyebrow}
+                    </p>
+                    <p className="text-[11px] text-foreground/35 mt-0.5">
+                      {String(activeIdx + 1).padStart(2, "0")} / {String(SERVICES.length).padStart(2, "0")}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-violet-glow">
-                  {active.eyebrow}
-                </p>
+                {/* stat pill */}
+                <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-3">
+                  <div>
+                    <p className="text-2xl font-extrabold tracking-tight leading-none text-foreground">{active.stat.value}</p>
+                    <p className="text-[11px] text-foreground/35 mt-1 whitespace-nowrap">{active.stat.label}</p>
+                  </div>
+                </div>
               </div>
-              {/* stat badge */}
-              <div className="flex flex-col items-end rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-right">
-                <span className="text-lg font-bold leading-none text-foreground">{active.stat.value}</span>
-                <span className="mt-1 text-[11px] text-foreground/40">{active.stat.label}</span>
-              </div>
-            </div>
 
-            <h3 className="relative mt-5 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {active.heading}
-            </h3>
+              {/* ── Heading ── */}
+              <h3 className="relative mt-7 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl leading-[1.15]">
+                {active.heading}
+              </h3>
 
-            <p className="relative mt-4 text-sm leading-relaxed text-foreground/60 sm:text-base sm:mt-5 max-w-2xl">
-              {active.body}
-            </p>
-
-            {/* divider */}
-            <div className="relative mt-7 flex items-center gap-3">
-              <div className="h-px flex-1 bg-white/[0.07]" />
-              <span className="text-[11px] font-medium uppercase tracking-widest text-foreground/30">
-                {active.sub.length} services included
-              </span>
-              <div className="h-px flex-1 bg-white/[0.07]" />
-            </div>
-
-            {/* sub-services grid */}
-            <ul className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {active.sub.map((item, idx) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-sm text-foreground/75 transition-all duration-150 hover:border-violet/25 hover:bg-white/[0.05] hover:text-foreground group/item"
-                >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-violet/15 text-violet-glow/70 group-hover/item:bg-violet/25 group-hover/item:text-violet-glow transition-colors duration-150">
-                    <Check className="h-3 w-3" />
-                  </span>
-                  <span className="flex-1">{item}</span>
-                  <span className="text-[10px] tabular-nums text-foreground/20 group-hover/item:text-foreground/40 transition-colors">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {/* panel footer CTA */}
-            <div className="relative mt-7 flex items-center justify-between gap-4 border-t border-white/[0.06] pt-5">
-              <p className="text-sm text-foreground/40">
-                Ready to explore {active.label.toLowerCase()}?
+              {/* ── Body ── */}
+              <p className="relative mt-4 text-sm leading-relaxed text-foreground/55 sm:text-[15px] max-w-2xl">
+                {active.body}
               </p>
-              <a
-                href="#pricing"
-                className="inline-flex items-center gap-2 rounded-xl border border-violet/25 bg-violet/10 px-5 py-2.5 text-sm font-medium text-violet-glow transition-all duration-200 hover:bg-violet/20 hover:border-violet/40 hover:shadow-[0_0_20px_oklch(0.62_0.22_290_/_0.20)]"
-              >
-                Get started
-                <ArrowRight className="h-3.5 w-3.5" />
-              </a>
+
+              {/* ── Divider with label ── */}
+              <div className="relative mt-8 flex items-center gap-4">
+                <div className="h-px flex-1 bg-white/[0.06]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/25">
+                  Capabilities
+                </span>
+                <div className="h-px flex-1 bg-white/[0.06]" />
+              </div>
+
+              {/* ── Sub-services — two column compact list ── */}
+              <ul className="relative mt-5 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-x-4">
+                {active.sub.map((item, idx) => (
+                  <li
+                    key={item}
+                    className="group/item flex items-center gap-3 border-b border-white/[0.05] py-3 last:border-0 sm:[&:nth-last-child(2)]:border-0"
+                  >
+                    {/* number */}
+                    <span className="w-6 shrink-0 text-[11px] tabular-nums font-mono text-foreground/20 group-hover/item:text-violet-glow/50 transition-colors duration-150">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    {/* label */}
+                    <span className="flex-1 text-sm text-foreground/65 group-hover/item:text-foreground/90 transition-colors duration-150">
+                      {item}
+                    </span>
+                    {/* hover arrow */}
+                    <ArrowRight className="h-3.5 w-3.5 text-violet-glow/0 group-hover/item:text-violet-glow/50 transition-all duration-150 -translate-x-1 group-hover/item:translate-x-0 shrink-0" />
+                  </li>
+                ))}
+              </ul>
+
+              {/* ── Footer CTA ── */}
+              <div className="relative mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-7 border-t border-white/[0.06]">
+                <div>
+                  <p className="text-sm font-medium text-foreground/70">
+                    Interested in {active.label.toLowerCase()}?
+                  </p>
+                  <p className="text-xs text-foreground/35 mt-0.5">
+                    Talk to a specialist — no commitments.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <a
+                    href="mailto:hello@brandarx.com"
+                    className="inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-foreground/70 transition-all duration-200 hover:bg-white/[0.08] hover:text-foreground hover:border-white/[0.18]"
+                  >
+                    Contact us
+                  </a>
+                  <a
+                    href="#pricing"
+                    className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet to-violet-glow px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_oklch(0.62_0.22_290_/_0.35)] transition-all duration-200 hover:shadow-[0_0_30px_oklch(0.62_0.22_290_/_0.5)] hover:scale-[1.02]"
+                  >
+                    Get started
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
