@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../contexts/AuthContext";
 import { AuthModal } from "../components/auth/AuthModal";
 import { CookieConsent } from "../components/CookieConsent";
+import { SmoothScrollProvider } from "../components/SmoothScrollProvider";
 
 function NotFoundComponent() {
   return (
@@ -146,13 +147,17 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="overflow-x-hidden">
-        <div className="relative min-h-screen overflow-x-hidden">
+        <div className="relative min-h-screen overflow-x-hidden" data-scroll-section>
           {/* Left black border with inner rounded edge from bottom */}
           <div className="fixed left-0 top-0 z-50 h-full w-1.5 bg-black sm:w-3 md:w-6" style={{ borderRadius: '0 0 50% 0' }} />
           {/* Right black border with inner rounded edge from bottom */}
           <div className="fixed right-0 top-0 z-50 h-full w-1.5 bg-black sm:w-3 md:w-6" style={{ borderRadius: '0 0 0 50%' }} />
           {/* Main content with rounded bottom corners */}
-          <div className="overflow-x-hidden px-1.5 sm:px-3 md:px-6" style={{ borderRadius: '0 0 50px 50px' }}>
+          <div
+            className="overflow-x-hidden px-1.5 sm:px-3 md:px-6"
+            data-scroll-section
+            style={{ borderRadius: '0 0 50px 50px' }}
+          >
             {children}
           </div>
         </div>
@@ -168,9 +173,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Outlet />
-        <AuthModal />
-        <CookieConsent />
+        <SmoothScrollProvider>
+          <Outlet />
+          <AuthModal />
+          <CookieConsent />
+        </SmoothScrollProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -380,7 +380,6 @@
   }
 
   html {
-    scroll-behavior: smooth;
     overflow-x: hidden;
   }
 
@@ -399,6 +398,10 @@
   img, video, svg {
     max-width: 100%;
     height: auto;
+  }
+
+  html.has-scroll-smooth {
+    scroll-behavior: auto;
   }
 }
 
@@ -449,6 +452,24 @@
   /* Scoped will-change — only on elements explicitly marked for animation */
   .will-animate {
     will-change: transform;
+  }
+
+  .smooth-scroll-wrapper {
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .smooth-scroll-content {
+    min-height: 100vh;
+    backface-visibility: hidden;
+  }
+
+  [data-scroll-container] {
+    min-height: 100vh;
+  }
+
+  [data-scroll-section] {
+    transform: translateZ(0);
   }
 }
 
