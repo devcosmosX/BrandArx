@@ -1,0 +1,22 @@
+{
+  "name": "brandarx-video",
+  "version": "1.0.0",
+  "description": "BrandArx — Motion Graphics Ad Video (Remotion)",
+  "private": true,
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render BrandArxLandscape out/brandarx-landscape.mp4",
+    "build:vertical": "npx remotion render BrandArxVertical out/brandarx-vertical.mp4",
+    "build:all": "npm run build && npm run build:vertical"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.270",
+    "@remotion/renderer": "^4.0.270",
+    "remotion": "^4.0.270"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.6.3"
+  }
+}

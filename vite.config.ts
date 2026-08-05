@@ -12,4 +12,70 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    // ── Dev server ──────────────────────────────────────────────
+    server: {
+      // Allow any host: Cloudflare Tunnel, ngrok, LAN access, etc.
+      allowedHosts: true,
+      // Suppress error overlays in the browser during HMR
+      hmr: { overlay: false },
+    },
+
+    // ── Build optimizations ─────────────────────────────────────
+    build: {
+      // Fast minification via esbuild, targeting modern browsers
+      minify: "esbuild",
+      target: "esnext",
+      // Split CSS per chunk for better parallel loading
+      cssCodeSplit: true,
+      // Skip logging compressed sizes — speeds up CI build output
+      reportCompressedSize: false,
+      rollupOptions: {
+        output: {
+          // Manual chunk splitting: vendor core, router, UI, animations
+          manualChunks(id: string) {
+            if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
+              return "vendor-react";
+            }
+            if (
+              id.includes("node_modules/@tanstack/react-router") ||
+              id.includes("node_modules/@tanstack/react-start")
+            ) {
+              return "vendor-router";
+            }
+            if (id.includes("node_modules/@radix-ui")) {
+              return "vendor-ui";
+            }
+            if (id.includes("node_modules/gsap")) {
+              return "vendor-animations";
+            }
+            if (
+              id.includes("node_modules/recharts") ||
+              id.includes("node_modules/embla-carousel-react")
+            ) {
+              return "vendor-charts";
+            }
+          },
+        },
+      },
+    },
+
+    // ── Dependency pre-bundling ──────────────────────────────────
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "gsap",
+        "@tanstack/react-router",
+        "@tanstack/react-query",
+        "lucide-react",
+      ],
+    },
+
+    // ── Preview server ───────────────────────────────────────────
+    preview: {
+      host: true,
+      port: 4173,
+    },
+  },
 });

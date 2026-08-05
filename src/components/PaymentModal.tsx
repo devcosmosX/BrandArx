@@ -114,7 +114,7 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
           style={{ background: 'radial-gradient(ellipse at center, oklch(0.62 0.22 290 / 0.3) 0%, transparent 70%)' }} />
 
         {/* Header */}
-        <div className="relative flex items-center justify-between border-b border-white/[0.07] px-6 py-5">
+        <div className="relative flex items-center justify-between border-b border-white/[0.07] px-4 py-4 sm:px-6 sm:py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-violet/20 border border-violet/30">
               <CreditCard className="h-4 w-4 text-violet-glow" />
@@ -132,7 +132,7 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
         </div>
 
         {/* Price summary */}
-        <div className="relative border-b border-white/[0.07] px-6 py-4 bg-white/[0.02]">
+        <div className="relative border-b border-white/[0.07] px-4 py-4 sm:px-6 bg-white/[0.02]">
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">
               {plan.name.replace('-Annual', '')} Plan
@@ -154,7 +154,7 @@ export function PaymentModal({ plan, onClose }: PaymentModalProps) {
         </div>
 
         {/* Body */}
-        <div className="relative px-6 py-6">
+        <div className="relative px-4 py-5 sm:px-6 sm:py-6">
 
           {/* FORM step */}
           {step === 'form' && (

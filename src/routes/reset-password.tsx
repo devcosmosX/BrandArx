@@ -56,7 +56,7 @@ function ResetPasswordComponent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#13111C] text-white p-4">
-      <div className="w-full max-w-[460px] bg-[#1a1726] border border-white/[0.06] shadow-2xl rounded-[32px] p-8 text-center space-y-6">
+      <div className="w-full max-w-[460px] bg-[#1a1726] border border-white/[0.06] shadow-2xl rounded-[32px] p-6 sm:p-8 text-center space-y-6">
         {/* Logo */}
         <div className="inline-flex justify-center text-xl font-bold tracking-widest text-white select-none">
           BrandArx

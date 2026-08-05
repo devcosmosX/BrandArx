@@ -156,10 +156,10 @@ function DashboardComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#13111C] text-white py-12 px-4 md:px-8">
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="min-h-screen bg-[#13111C] text-white py-8 sm:py-10 md:py-12 px-4 md:px-8">
+      <div className="mx-auto max-w-5xl space-y-5 sm:space-y-6 md:space-y-8">
         {/* Top Header Card */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 p-4 sm:p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-violet to-violet-glow flex items-center justify-center shadow-lg shadow-violet/25 font-bold text-xl text-white">
               {user.profileImage ? (
@@ -178,7 +178,7 @@ function DashboardComponent() {
           </div>
           <button
             onClick={() => logout().then(() => navigate({ to: '/' }))}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 hover:border-red-500/30 hover:bg-red-500/10 text-sm font-medium transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-xl border border-white/10 hover:border-red-500/30 hover:bg-red-500/10 text-sm font-medium transition-all cursor-pointer"
           >
             <LogOut className="h-4 w-4" />
             Logout Session
@@ -186,11 +186,11 @@ function DashboardComponent() {
         </div>
 
         {/* Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
           {/* Col 1: Profile Details */}
-          <div className="md:col-span-2 space-y-8">
+          <div className="md:col-span-2 space-y-5 sm:space-y-6 md:space-y-8">
             {/* Account Details Card */}
-            <div className="p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl space-y-6">
+            <div className="p-4 sm:p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl space-y-5 sm:space-y-6">
               <div className="flex items-center gap-2.5 border-b border-white/5 pb-4">
                 <UserIcon className="h-5 w-5 text-violet-glow" />
                 <h2 className="text-lg font-semibold">Profile Information</h2>
@@ -232,7 +232,7 @@ function DashboardComponent() {
             </div>
 
             {/* Sessions Card */}
-            <div className="p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl space-y-4">
+            <div className="p-4 sm:p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl space-y-4">
               <div className="flex items-center gap-2.5 border-b border-white/5 pb-4">
                 <KeyRound className="h-5 w-5 text-violet-glow" />
                 <h2 className="text-lg font-semibold">Session Management</h2>
@@ -244,7 +244,7 @@ function DashboardComponent() {
                 <button
                   onClick={handleLogoutAllDevices}
                   disabled={isLoggingOutAll}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 hover:border-red-500/30 hover:bg-red-500/10 text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+                  className="flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-xl border border-white/10 hover:border-red-500/30 hover:bg-red-500/10 text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isLoggingOutAll ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
                   Logout from All Devices
@@ -254,7 +254,7 @@ function DashboardComponent() {
           </div>
 
           {/* Col 2: 2FA Settings Card */}
-          <div className="p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl flex flex-col justify-between min-h-[360px]">
+          <div className="p-4 sm:p-6 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl flex flex-col justify-between min-h-0 md:min-h-[360px]">
             <div className="space-y-4">
               <div className="flex items-center gap-2.5 border-b border-white/5 pb-4">
                 {user.twoFactorEnabled ? (

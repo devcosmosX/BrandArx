@@ -67,13 +67,13 @@ export function CookieConsent() {
       <div className="flex items-center gap-3">
         <button
           onClick={handleAccept}
-          className="flex-1 h-10 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-violet to-violet-glow shadow-md shadow-violet/15 hover:shadow-lg hover:shadow-violet/25 hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet/50"
+          className="flex-1 h-11 min-h-[44px] rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-violet to-violet-glow shadow-md shadow-violet/15 hover:shadow-lg hover:shadow-violet/25 hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet/50"
         >
           Accept All
         </button>
         <button
           onClick={handleDecline}
-          className="flex-1 h-10 rounded-lg text-sm font-medium border border-white/15 bg-transparent text-[#A0A8B8] hover:bg-white/6 hover:text-white transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet/50"
+          className="flex-1 h-11 min-h-[44px] rounded-lg text-sm font-medium border border-white/15 bg-transparent text-[#A0A8B8] hover:bg-white/6 hover:text-white transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet/50"
         >
           Decline
         </button>

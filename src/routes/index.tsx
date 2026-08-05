@@ -146,10 +146,10 @@ function Nav() {
 
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[oklch(0_0_0)]/90 backdrop-blur-2xl border-b border-white/[0.06] py-2.5'
-          : 'bg-transparent py-4'
+          ? 'bg-[oklch(0_0_0)]/90 backdrop-blur-2xl border-b border-white/[0.06] py-2'
+          : 'bg-transparent py-3 sm:py-4'
       }`}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 md:px-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-3 sm:px-6 md:px-10">
 
           {/* ── Logo ── */}
           <a href="#" className="group flex items-center select-none">
@@ -272,8 +272,8 @@ function Nav() {
 
         {/* ── Mobile Menu Panel ── */}
         {mobileMenuOpen && (
-          <div className="mobile-menu-enter lg:hidden border-t border-white/[0.07] bg-[oklch(0_0_0)]/95 backdrop-blur-2xl">
-            <div className="mx-auto max-w-7xl px-4 py-4 space-y-1">
+          <div className="mobile-menu-enter lg:hidden border-t border-white/[0.07] bg-[oklch(0_0_0)]/95 backdrop-blur-2xl max-h-[80dvh] overflow-y-auto">
+            <div className="mx-auto max-w-7xl px-3 py-3 space-y-1 sm:px-6">
 
               {/* Services accordion */}
               <div>
@@ -285,14 +285,14 @@ function Nav() {
                   <ChevronDown className={`h-4 w-4 text-white/40 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isServicesOpen && (
-                  <div className="mt-1 ml-3 grid grid-cols-2 gap-x-4 gap-y-0.5 pb-2">
+                  <div className="mt-1 ml-2 grid grid-cols-1 gap-x-4 gap-y-0.5 pb-2 sm:grid-cols-2 sm:ml-3">
                     {serviceCategories.map(cat => (
                       <div key={cat.name} className="mt-2">
                         <p className="px-2 mb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/30">{cat.name}</p>
                         {cat.items.map(item => (
                           <a key={item} href="#"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="block px-2 py-1.5 text-[13px] text-white/60 rounded-lg hover:bg-white/[0.05] hover:text-white transition-colors">
+                            className="block px-2 py-2.5 text-[13px] text-white/60 rounded-lg hover:bg-white/[0.05] hover:text-white transition-colors min-h-[44px] flex items-center">
                             {item}
                           </a>
                         ))}
@@ -306,7 +306,7 @@ function Nav() {
               {links.map(link => (
                 <a key={link.name} href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-3 text-[14px] font-medium text-white/70 rounded-xl hover:bg-white/[0.05] hover:text-white transition-colors">
+                  className="flex items-center px-3 py-3 min-h-[44px] text-[14px] font-medium text-white/70 rounded-xl hover:bg-white/[0.05] hover:text-white transition-colors">
                   {link.name}
                 </a>
               ))}
@@ -315,25 +315,25 @@ function Nav() {
               <div className="my-3 border-t border-white/[0.06]" />
 
               {/* Mobile CTA row */}
-              <div className="flex items-center gap-2 px-1 pb-2">
+              <div className="flex items-center gap-2 px-1 pb-3">
                 <button
                   onClick={() => { openLoginModal(); setMobileMenuOpen(false); }}
                   data-auth-trigger="login"
-                  className="flex-1 rounded-xl border border-white/10 py-2.5 text-[13.5px] font-medium text-white/70 hover:bg-white/[0.06] hover:text-white transition-all active:scale-95"
+                  className="flex-1 rounded-xl border border-white/10 py-3 min-h-[44px] text-[13.5px] font-medium text-white/70 hover:bg-white/[0.06] hover:text-white transition-all active:scale-95"
                 >
                   Sign in
                 </button>
                 <button
                   onClick={() => { openLoginModal(); setMobileMenuOpen(false); }}
                   data-auth-trigger="signup"
-                  className="flex-1 rounded-xl bg-gradient-to-r from-white via-white/90 to-violet-glow py-2.5 text-[13.5px] font-medium text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/25 transition-all hover:brightness-105 active:scale-95"
+                  className="flex-1 rounded-xl bg-gradient-to-r from-white via-white/90 to-violet-glow py-3 min-h-[44px] text-[13.5px] font-medium text-[oklch(0.15_0.05_280)] shadow-lg shadow-violet/25 transition-all hover:brightness-105 active:scale-95"
                 >
                   Get Started
                 </button>
                 <button
                   onClick={toggleTheme}
                   aria-label="Toggle theme"
-                  className="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 text-white/50 hover:bg-white/[0.06] hover:text-white transition-all"
+                  className="flex items-center justify-center w-11 h-11 min-h-[44px] rounded-xl border border-white/10 text-white/50 hover:bg-white/[0.06] hover:text-white transition-all"
                 >
                   {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </button>
@@ -405,9 +405,9 @@ function PadlockAscii() {
 function Hero() {
   return (
     <section data-hero-section className="relative overflow-hidden rounded-b-[24px] md:rounded-b-[32px]">
-      {/* Base dark */}
+      {/* Base dark — identical across all breakpoints */}
       <div className="absolute inset-0 rounded-b-[24px] bg-[oklch(0_0_0)] md:rounded-b-[32px]" />
-      {/* Main violet radial bloom from center-bottom - extended to match reference */}
+      {/* Main violet radial bloom — identical across all breakpoints */}
       <div
         className="absolute inset-0"
         style={{
@@ -415,7 +415,7 @@ function Hero() {
             "radial-gradient(ellipse 85% 70% at 50% 100%, oklch(0.78 0.22 295) 0%, oklch(0.65 0.27 290) 20%, oklch(0.50 0.25 288) 40%, oklch(0.35 0.18 285) 60%, oklch(0.22 0.12 282) 75%, transparent 90%)",
         }}
       />
-      {/* Bottom soft lavender fade */}
+      {/* Bottom soft lavender fade — identical across all breakpoints */}
       <div
         className="absolute inset-x-0 bottom-0 h-40"
         style={{
@@ -423,7 +423,7 @@ function Hero() {
             "linear-gradient(to bottom, transparent 0%, oklch(0.86 0.07 295 / 0.55) 70%, oklch(0.92 0.05 295 / 0.85) 100%)",
         }}
       />
-      {/* Top vignette */}
+      {/* Top vignette — identical across all breakpoints */}
       <div
         className="absolute inset-x-0 top-0 h-72"
         style={{
@@ -435,9 +435,20 @@ function Hero() {
       <div className="relative">
         <Nav />
 
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center px-4 pb-20 pt-28 text-center sm:px-6 sm:pb-28 sm:pt-28 md:px-8 md:pb-36 md:pt-32 lg:px-10 lg:pb-44 lg:pt-40 xl:pb-52 xl:pt-48">
+        {/* Content wrapper — mobile: generous pt/pb for spacious agency feel; sm+ unchanged */}
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center px-6 pb-28 pt-28 text-center sm:px-6 sm:pb-28 sm:pt-28 md:px-8 md:pb-36 md:pt-32 lg:px-10 lg:pb-44 lg:pt-40 xl:pb-52 xl:pt-48">
           <div className="w-full max-w-6xl">
-            <h1 data-hero-heading className="text-[clamp(2rem,8vw,5rem)] font-semibold leading-tight tracking-tight sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight lg:text-7xl lg:leading-[1.1] xl:text-8xl xl:leading-[1.05]">
+
+            {/* Eyebrow label — mobile only */}
+            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-violet-glow sm:hidden">
+              Strategy · Design · AI Automation
+            </p>
+
+            {/* Heading — mobile: fluid clamp with generous leading; sm+ unchanged */}
+            <h1
+              data-hero-heading
+              className="text-[clamp(2rem,9vw,2.5rem)] font-semibold leading-[1.18] tracking-[-0.01em] sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight lg:text-7xl lg:leading-[1.1] xl:text-8xl xl:leading-[1.05]"
+            >
               {/* Line 1 — bright white fading to silver */}
               <span className="block" style={{
                 background: "linear-gradient(180deg, #ffffff 0%, #d0d0d8 100%)",
@@ -457,18 +468,28 @@ function Hero() {
                 Faster Grow Revenue
               </span>
             </h1>
-            <p className="mx-auto mt-4 max-w-[90%] text-sm text-foreground/80 sm:mt-5 sm:max-w-xl sm:text-base md:mt-6 md:max-w-2xl md:text-lg lg:mt-7 lg:max-w-3xl lg:text-xl xl:mt-8">
+
+            {/* Body copy — mobile: more top space, wider measure, comfortable size; sm+ unchanged */}
+            <p className="mx-auto mt-5 max-w-[90%] text-[0.875rem] leading-[1.7] text-foreground/70 sm:mt-5 sm:max-w-xl sm:text-base md:mt-6 md:max-w-2xl md:text-lg lg:mt-7 lg:max-w-3xl lg:text-xl xl:mt-8">
               We blend strategy, design, development, and AI automation to help brands increase efficiency, improve customer experiences, and unlock new growth opportunities.
             </p>
-            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-7 sm:flex-row sm:gap-4 md:mt-8 lg:mt-10">
+
+            {/* CTA buttons — mobile: more top space, full-width stacked, slightly taller tap targets; sm+ unchanged */}
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-7 sm:flex-row sm:gap-4 md:mt-8 lg:mt-10">
               <LoginButton />
               <a
                 href="#"
-                className="inline-flex w-full items-center justify-center rounded-full px-6 py-2.5 text-sm font-medium text-foreground/90 transition hover:text-foreground sm:w-auto sm:px-7 sm:py-3 md:text-base lg:px-8 lg:py-3.5"
+                className="inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 min-h-[48px] text-[0.875rem] font-medium text-foreground/90 transition hover:text-foreground sm:w-auto sm:py-3 sm:text-sm md:text-base lg:px-8 lg:py-3.5"
               >
                 Explore Capabilities
               </a>
             </div>
+
+            {/* Trust line — mobile only, anchors the section bottom */}
+            <p className="mt-8 text-[10px] font-medium tracking-wide text-foreground/30 sm:hidden">
+              Trusted by growing brands · No lock-in
+            </p>
+
           </div>
         </div>
       </div>
@@ -486,7 +507,7 @@ function LogoTicker() {
   const track = [...logos, ...logos];
 
   return (
-    <section className="border-y border-white/5 bg-background/60 py-10 overflow-hidden sm:py-14">
+    <section className="border-y border-white/5 bg-background/60 py-8 overflow-hidden sm:py-12 md:py-14">
       {/* Keyframe injection */}
       <style>{`
         @keyframes marquee {
@@ -504,7 +525,7 @@ function LogoTicker() {
         }
       `}</style>
 
-      <p className="mx-auto max-w-3xl px-4 text-center text-xs font-medium uppercase tracking-wider text-muted-foreground mb-8 sm:px-6 sm:text-sm sm:mb-10">
+      <p className="mx-auto max-w-3xl px-4 text-center text-[11px] font-medium uppercase tracking-wider text-muted-foreground mb-6 sm:px-6 sm:text-xs sm:mb-8 md:mb-10">
         Trusted by innovative companies to build and scale their digital presence
       </p>
 
@@ -517,7 +538,7 @@ function LogoTicker() {
           {track.map((name, i) => (
             <span
               key={i}
-              className="mx-12 text-xl font-semibold tracking-tight text-foreground/40 transition-colors duration-300 hover:text-foreground cursor-default select-none whitespace-nowrap"
+              className="mx-8 text-base font-semibold tracking-tight text-foreground/40 transition-colors duration-300 hover:text-foreground cursor-default select-none whitespace-nowrap sm:mx-10 sm:text-lg md:mx-12 md:text-xl"
             >
               {name}
             </span>
@@ -531,18 +552,18 @@ function LogoTicker() {
 /* ---------- Before / After Showcase ---------- */
 function BeforeAfterShowcase() {
   return (
-    <section className="relative py-16 md:py-28 overflow-hidden bg-background">
+    <section className="relative py-12 md:py-24 overflow-hidden bg-background">
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 md:px-10">
 
         {/* ── Heading ── */}
-        <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-14">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">
+        <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-12 md:mb-14">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow sm:mb-4">
             Real Results
           </p>
-          <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-5xl">
+          <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-5xl">
             Website Redesigns That Drive Real Business Growth
           </h2>
-          <p className="mt-4 text-sm text-muted-foreground leading-relaxed max-w-2xl mx-auto sm:text-base sm:mt-5">
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-2xl mx-auto sm:text-base sm:mt-5">
             See how we transform slow, outdated websites into high-performance, conversion-optimised digital experiences — built to rank, engage, and scale.
           </p>
         </div>
@@ -576,9 +597,9 @@ function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string })
   return (
     <div className="mx-auto max-w-3xl px-4 text-center sm:px-0">
       {eyebrow && (
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">{eyebrow}</p>
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-glow sm:mb-4 sm:text-xs">{eyebrow}</p>
       )}
-      <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-5xl">{title}</h2>
+      <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">{title}</h2>
     </div>
   );
 }
@@ -1442,131 +1463,6 @@ const NumBadge = ({ n, count }: { n: string; count?: string }) => (
 const cardBase =
   "group relative overflow-hidden rounded-2xl border border-white/10 bg-black p-5 flex flex-col transition-all duration-300 hover:border-white/20 hover:shadow-[0_0_40px_rgba(90,60,180,0.15)]"
 
-function ProductsGrid() {
-  const gridRef = useRef<HTMLDivElement>(null)
-
-  // Scroll-reveal: add `.in-view` to each `.card-reveal` when it enters viewport
-  useEffect(() => {
-    const cards = gridRef.current?.querySelectorAll<HTMLElement>('.card-reveal')
-    if (!cards?.length) return
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view')
-            io.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.12 }
-    )
-    cards.forEach((c) => io.observe(c))
-    return () => io.disconnect()
-  }, [])
-
-  return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      <SectionHeading title="Comprehensive digital solutions to grow your business" />
-
-      <div ref={gridRef} className="mx-auto mt-10 max-w-6xl space-y-3 sm:mt-14">
-
-        {/* ── Row 1: 3 equal columns ── */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-
-          {/* 01 – AI Agent Automation */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '0ms' }}>
-            <NumBadge n="01" count="2" />
-            <div className="flex-1 flex items-center justify-center mt-2">
-              <div className="w-full h-[140px]"><AIAgentVisual /></div>
-            </div>
-            <div className="mt-4">
-              <p className="text-[24px] font-bold leading-[1.15] text-white">AI Agent</p>
-              <p className="text-[24px] font-bold leading-[1.15] text-white/60">Automation</p>
-            </div>
-          </div>
-
-          {/* 02 – Website Development */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '90ms' }}>
-            <NumBadge n="02" />
-            <div className="flex-1 flex items-center justify-center mt-2">
-              <div className="w-full h-[140px]"><WebDevVisual /></div>
-            </div>
-            <div className="mt-4">
-              <p className="text-[24px] font-bold leading-[1.15] text-white">Website</p>
-              <p className="text-[24px] font-bold leading-[1.15] text-white/60">Development</p>
-            </div>
-          </div>
-
-          {/* 03 – UI/UX Design */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '180ms' }}>
-            <NumBadge n="03" count="3" />
-            <div className="absolute inset-0 flex items-center justify-end pointer-events-none">
-              <div className="w-[200px] h-full"><UIUXVisual /></div>
-            </div>
-            <div className="relative mt-auto pt-16">
-              <p className="text-[28px] font-bold leading-[1.1] text-white">UI/UX Design</p>
-              <div className="flex gap-1.5 mt-3">
-                <span className="h-[3px] w-8 rounded-full bg-blue-500 block"/>
-                <span className="h-[3px] w-5 rounded-full bg-violet-500 block"/>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Row 2: 4 columns ── */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-
-          {/* 04 – E-commerce text card */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '270ms' }}>
-            <NumBadge n="04" count="4" />
-            <div className="flex-1" />
-            <div className="mt-4">
-              <p className="text-[24px] font-bold leading-[1.15] text-white">E-commerce</p>
-              <p className="text-[24px] font-bold leading-[1.15] text-white/60">Solutions</p>
-            </div>
-          </div>
-
-          {/* 04b – E-commerce visual */}
-          <div className={`card-reveal ${cardBase} min-h-[300px] items-center justify-center !p-2`}
-               style={{ animationDelay: '340ms' }}>
-            <div className="w-full h-full min-h-[280px]"><EcommerceVisual /></div>
-          </div>
-
-          {/* 05 – AI Chatbot */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '410ms' }}>
-            <NumBadge n="05" count="≡1" />
-            <div className="flex-1 flex items-end pb-1">
-              <div className="w-full h-[90px]"><ChatbotVisual /></div>
-            </div>
-            <div className="mt-3">
-              <p className="text-[24px] font-bold leading-[1.15] text-white">AI Chatbot</p>
-              <p className="text-[24px] font-bold leading-[1.15] text-white/60">Development</p>
-            </div>
-          </div>
-
-          {/* 06 – CRM & Automation */}
-          <div className={`card-reveal ${cardBase} min-h-[240px]`}
-               style={{ animationDelay: '480ms' }}>
-            <NumBadge n="06" />
-            <div className="flex-1 flex items-center justify-center mt-1">
-              <div className="w-full h-[130px]"><CRMVisual /></div>
-            </div>
-            <div className="mt-3">
-              <p className="text-[24px] font-bold leading-[1.15] text-white">CRM &amp;</p>
-              <p className="text-[24px] font-bold leading-[1.15] text-white/60">Automation</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ---------- Feature blocks ---------- */
 function FeatureBlock({
   eyebrow,
@@ -1587,9 +1483,9 @@ function FeatureBlock({
     >
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">{eyebrow}</p>
-        <h3 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">{title}</h3>
-        <p className="mt-4 text-sm text-foreground/70 sm:text-base sm:mt-5">{body}</p>
-        <a href="#" className="mt-5 inline-flex items-center gap-1 text-sm text-foreground hover:text-violet-glow">
+        <h3 className="mt-3 text-xl font-semibold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl">{title}</h3>
+        <p className="mt-3 text-sm text-foreground/70 sm:text-base sm:mt-5">{body}</p>
+        <a href="#" className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-sm text-foreground hover:text-violet-glow sm:mt-5">
           Learn more
         </a>
       </div>
@@ -1655,7 +1551,7 @@ function VisualSharing() {
 
 function Features() {
   return (
-    <section className="space-y-28 px-6 py-20">
+    <section className="space-y-16 px-4 py-12 sm:space-y-24 sm:px-6 sm:py-16 md:space-y-28 md:py-20">
       <div className="mx-auto max-w-6xl">
         <FeatureBlock
           eyebrow="Website Development"
@@ -1687,39 +1583,230 @@ function Features() {
 
 /* ---------- Encryption model section ---------- */
 function EncryptionModel() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } },
+      { threshold: 0.12 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const items = [
     {
+      icon: Zap,
+      eyebrow: "Speed",
       title: "Fast Turnaround",
       body: "We deliver projects on time without compromising quality. Our agile process ensures rapid development with continuous feedback and iterations.",
+      stat: "2×",
+      statLabel: "faster delivery",
+      color: "from-amber-500/20 to-amber-400/5",
+      iconColor: "text-amber-400",
+      borderHover: "hover:border-amber-400/30",
+      glowColor: "rgba(245,158,11,0.12)",
     },
     {
+      icon: Layers,
+      eyebrow: "Architecture",
       title: "Scalable Solutions",
       body: "Build for today, scale for tomorrow. Our architecture and code are designed to grow with your business needs and handle increasing traffic.",
+      stat: "10×",
+      statLabel: "growth-ready",
+      color: "from-violet/20 to-violet/5",
+      iconColor: "text-violet-glow",
+      borderHover: "hover:border-violet/30",
+      glowColor: "rgba(124,92,216,0.12)",
     },
     {
+      icon: Headphones,
+      eyebrow: "Partnership",
       title: "Ongoing Support",
       body: "We don't disappear after launch. Get continuous maintenance, updates, and support to keep your digital assets running smoothly.",
+      stat: "24/7",
+      statLabel: "dedicated support",
+      color: "from-emerald-500/20 to-emerald-400/5",
+      iconColor: "text-emerald-400",
+      borderHover: "hover:border-emerald-400/30",
+      glowColor: "rgba(52,211,153,0.12)",
     },
   ];
+
+  const stats = [
+    { value: "150+", label: "Projects delivered" },
+    { value: "98%", label: "Client satisfaction" },
+    { value: "40+", label: "Enterprise clients" },
+    { value: "5★",  label: "Average rating" },
+  ];
+
   return (
-    <section className="relative overflow-hidden border-y border-white/5 px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      <div className="absolute inset-0 [background:radial-gradient(ellipse_at_50%_0%,rgba(170,120,255,0.18),transparent_50%)]" />
-      <div className="relative mx-auto max-w-5xl">
-        <SectionHeading title="Why businesses choose us for their digital transformation" />
-        <p className="mx-auto mt-5 max-w-2xl px-4 text-center text-sm text-foreground/70 sm:mt-6 sm:px-0 sm:text-base">
-          We combine technical expertise with business understanding to deliver solutions that
-          not only look great but drive measurable results for your bottom line.
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden border-y border-white/5 px-4 py-20 sm:px-6 sm:py-24 md:py-32"
+    >
+      {/* ── Multi-layer ambient background ── */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 55% at 50% 0%, oklch(0.62 0.22 290 / 0.14) 0%, transparent 55%)",
+        }}
+      />
+      {/* Drifting secondary orb */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/4 rounded-full opacity-25"
+        style={{
+          background: "radial-gradient(circle, oklch(0.62 0.22 290 / 0.35) 0%, transparent 70%)",
+          animation: "glowDrift 14s ease-in-out infinite",
+        }}
+      />
+      {/* Dot-grid texture */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(circle, oklch(1 0 0) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        {/* ── Section heading ── */}
+        <div className={`transition-none ${inView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "0ms" }}>
+          <SectionHeading
+            eyebrow="Why Us"
+            title="Why businesses choose us for their digital transformation"
+          />
+        </div>
+
+        <p
+          className={`mx-auto mt-5 max-w-2xl px-4 text-center text-sm text-foreground/60 sm:mt-6 sm:px-0 sm:text-base leading-relaxed ${inView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "80ms" }}
+        >
+          We combine deep technical expertise with business understanding to deliver solutions that
+          don't just look great — they drive measurable, compounding results for your bottom line.
         </p>
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {items.map((i) => (
+
+        {/* ── Trust stat bar ── */}
+        <div
+          className={`mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] sm:grid-cols-4 sm:mt-12 ${inView ? "reveal-scale in-view" : "reveal-scale"}`}
+          style={{ animationDelay: "160ms" }}
+        >
+          {stats.map(({ value, label }, idx) => (
             <div
-              key={i.title}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+              key={label}
+              className="group relative flex flex-col items-center gap-1 bg-card-dark px-4 py-6 transition-colors duration-300 hover:bg-white/[0.05]"
             >
-              <h4 className="text-lg font-semibold">{i.title}</h4>
-              <p className="mt-3 text-sm text-foreground/70">{i.body}</p>
+              {/* shimmer on hover */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                <div
+                  className="absolute inset-y-0 w-1/2 -translate-x-full bg-gradient-to-r from-transparent via-white/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  style={{ animation: "shimmerScan 1.2s ease-in-out infinite" }}
+                />
+              </div>
+              <span
+                className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
+                style={{
+                  background: "linear-gradient(135deg, oklch(0.98 0.005 280) 0%, oklch(0.78 0.18 295) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  animationDelay: `${idx * 80}ms`,
+                }}
+              >
+                {value}
+              </span>
+              <span className="text-center text-[11px] font-medium uppercase tracking-[0.12em] text-foreground/40">
+                {label}
+              </span>
             </div>
           ))}
+        </div>
+
+        {/* ── Feature cards ── */}
+        <div className="mt-12 grid gap-5 sm:mt-16 md:grid-cols-3">
+          {items.map(({ icon: Icon, eyebrow, title, body, stat, statLabel, color, iconColor, borderHover, glowColor }, idx) => (
+            <div
+              key={title}
+              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-card-dark p-7 transition-all duration-500 ${borderHover} hover:shadow-[0_0_40px_var(--card-glow)]`}
+              style={{
+                // @ts-ignore
+                "--card-glow": glowColor,
+                animationDelay: `${200 + idx * 120}ms`,
+              } as React.CSSProperties}
+            >
+              {/* Gradient ambient layer */}
+              <div
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-b ${color} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
+              />
+              {/* Corner glow */}
+              <div
+                className="pointer-events-none absolute right-0 top-0 h-32 w-32 translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-60"
+                style={{ backgroundColor: glowColor }}
+              />
+
+              <div className="relative">
+                {/* Eyebrow + icon row */}
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/35">
+                    {eyebrow}
+                  </span>
+                  <div
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] transition-all duration-300 group-hover:scale-110 group-hover:border-white/20 group-hover:bg-white/[0.10]`}
+                  >
+                    <Icon className={`h-4.5 w-4.5 ${iconColor}`} />
+                  </div>
+                </div>
+
+                {/* Headline */}
+                <h4 className="text-xl font-bold tracking-tight text-foreground">{title}</h4>
+
+                {/* Body */}
+                <p className="mt-3 text-sm leading-relaxed text-foreground/60">{body}</p>
+
+                {/* Stat pill */}
+                <div className="mt-6 flex items-center gap-3 border-t border-white/[0.07] pt-5">
+                  <span
+                    className="text-2xl font-black tracking-tight"
+                    style={{
+                      background: "linear-gradient(135deg, oklch(0.98 0.005 280) 0%, oklch(0.78 0.18 295) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    {stat}
+                  </span>
+                  <span className="text-xs text-foreground/40">{statLabel}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Bottom CTA strip ── */}
+        <div
+          className={`mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-6 ${inView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "480ms" }}
+        >
+          <a
+            href="#pricing"
+            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet to-violet-glow px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet/40"
+          >
+            View our plans
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+          <a
+            href="#"
+            className="inline-flex items-center gap-1.5 text-sm text-foreground/60 transition-colors duration-200 hover:text-foreground"
+          >
+            See case studies
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
         </div>
       </div>
     </section>
@@ -1759,30 +1846,204 @@ function CodeBlock() {
 }
 
 function DevSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const techStack = [
+    { name: "React",       color: "#61DAFB", category: "Frontend" },
+    { name: "Next.js",     color: "#ffffff", category: "Framework" },
+    { name: "Node.js",     color: "#8CC84B", category: "Backend" },
+    { name: "TypeScript",  color: "#3178C6", category: "Language" },
+    { name: "AI/ML",       color: "#a78bfa", category: "Intelligence" },
+    { name: "PostgreSQL",  color: "#336791", category: "Database" },
+    { name: "Tailwind",    color: "#38BDF8", category: "Styling" },
+    { name: "Vercel",      color: "#ffffff", category: "Deploy" },
+  ];
+
+  const metrics = [
+    { value: "< 100ms", label: "Avg. API latency" },
+    { value: "99.9%",   label: "Uptime SLA" },
+    { value: "A+",      label: "Lighthouse score" },
+  ];
+
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 md:gap-12 md:grid-cols-2">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-glow">Modern Tech Stack</p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl">
-            Built with cutting-edge technologies for optimal performance
-          </h2>
-          <p className="mt-4 text-sm text-foreground/70 sm:mt-5 sm:text-base">
-            We use the latest frameworks and tools to build fast, secure, and maintainable solutions.
-            From React and Next.js to AI integrations and automation platforms.
-          </p>
-          <a href="#" className="mt-5 inline-flex items-center gap-1 text-sm hover:text-violet-glow">
-            View our tech stack
-          </a>
-          <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
-            {["React", "Next.js", "Node.js", "AI/ML", "Cloud"].map((s) => (
-              <span key={s} className="rounded-md border border-white/10 px-3 py-1.5">
-                {s}
-              </span>
-            ))}
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-24 md:py-32"
+    >
+      {/* ── Ambient layered background ── */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 100% 50%, oklch(0.62 0.22 290 / 0.12) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 0% 60%, oklch(0.55 0.25 260 / 0.08) 0%, transparent 55%)",
+        }}
+      />
+      {/* Subtle grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "linear-gradient(oklch(1 0 0 / 0.5) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.5) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="grid items-center gap-14 md:grid-cols-2 md:gap-16 lg:gap-20">
+
+          {/* ── Left: copy ── */}
+          <div>
+            <div
+              className={inView ? "reveal-left in-view" : "reveal-left"}
+              style={{ animationDelay: "0ms" }}
+            >
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet/20 bg-violet/[0.08] px-3 py-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-violet-glow" style={{ animation: "glowPulse 2s ease-in-out infinite" }} />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-violet-glow">Modern Tech Stack</span>
+              </div>
+            </div>
+
+            <h2
+              className={`mt-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] ${inView ? "reveal-left in-view" : "reveal-left"}`}
+              style={{ animationDelay: "80ms" }}
+            >
+              Built with{" "}
+              <span
+                className="text-gradient-fade"
+              >
+                cutting-edge
+              </span>{" "}
+              technologies for optimal performance
+            </h2>
+
+            <p
+              className={`mt-5 text-base leading-relaxed text-foreground/60 sm:text-lg ${inView ? "reveal-left in-view" : "reveal-left"}`}
+              style={{ animationDelay: "160ms" }}
+            >
+              We hand-pick the best tools in the ecosystem — not for trend-chasing, but because
+              each one meaningfully improves performance, reliability, and developer velocity.
+            </p>
+
+            {/* ── Performance metrics ── */}
+            <div
+              className={`mt-8 grid grid-cols-3 gap-3 ${inView ? "reveal-left in-view" : "reveal-left"}`}
+              style={{ animationDelay: "240ms" }}
+            >
+              {metrics.map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="group rounded-xl border border-white/10 bg-white/[0.03] p-3 text-center transition-all duration-300 hover:border-violet/25 hover:bg-violet/[0.05]"
+                >
+                  <div
+                    className="text-lg font-black tracking-tight sm:text-xl"
+                    style={{
+                      background: "linear-gradient(135deg, oklch(0.98 0.005 280) 0%, oklch(0.78 0.18 295) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    {value}
+                  </div>
+                  <div className="mt-0.5 text-[10px] uppercase tracking-[0.12em] text-foreground/40">{label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* ── CTA link ── */}
+            <div
+              className={`mt-8 flex items-center gap-5 ${inView ? "reveal-left in-view" : "reveal-left"}`}
+              style={{ animationDelay: "320ms" }}
+            >
+              <a
+                href="#"
+                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet to-violet-glow px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet/25 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet/40"
+              >
+                View full stack
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+              <a href="#" className="text-sm text-foreground/50 transition-colors hover:text-foreground/80">
+                Architecture guide →
+              </a>
+            </div>
+          </div>
+
+          {/* ── Right: code block + tech badges ── */}
+          <div
+            className={`flex flex-col gap-6 ${inView ? "reveal-right in-view" : "reveal-right"}`}
+            style={{ animationDelay: "120ms" }}
+          >
+            {/* Enhanced code block */}
+            <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card-dark shadow-card-elevated transition-all duration-500 hover:border-violet/25 hover:shadow-[0_0_60px_rgba(124,92,216,0.15)]">
+              {/* Ambient glow on hover */}
+              <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: "radial-gradient(ellipse at 100% 0%, oklch(0.62 0.22 290 / 0.08) 0%, transparent 55%)" }} />
+              {/* Title bar */}
+              <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-500/60 transition-colors duration-200 group-hover:bg-red-400" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-500/60 transition-colors duration-200 group-hover:bg-amber-400" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/60 transition-colors duration-200 group-hover:bg-emerald-400" />
+                <span className="ml-3 font-mono text-xs text-muted-foreground/70">Checkout.tsx</span>
+                <span className="ml-auto rounded-sm bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[10px] text-emerald-400">● live</span>
+              </div>
+              {/* Code */}
+              <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-6">
+                {[
+                  { ln: "1", tokens: [{ t: "import", c: "text-violet-glow/90" }, { t: " { Card, themes } ", c: "text-foreground/80" }, { t: "from", c: "text-violet-glow/90" }, { t: ' "@securepay/react"', c: "text-amber-400/80" }] },
+                  { ln: "2", tokens: [{ t: "import", c: "text-violet-glow/90" }, { t: " theme ", c: "text-foreground/80" }, { t: "from", c: "text-violet-glow/90" }, { t: " './theme'", c: "text-amber-400/80" }] },
+                  { ln: "3", tokens: [{ t: "", c: "" }] },
+                  { ln: "4", tokens: [{ t: "export function", c: "text-violet-glow/90" }, { t: " Checkout", c: "text-sky-400/80" }, { t: "() {", c: "text-foreground/70" }] },
+                  { ln: "5", tokens: [{ t: "  return (", c: "text-foreground/60" }] },
+                  { ln: "6", tokens: [{ t: "    <", c: "text-foreground/50" }, { t: "Card", c: "text-emerald-400/80" }, { t: " theme=", c: "text-foreground/50" }, { t: "{theme}", c: "text-sky-400/70" }, { t: " />", c: "text-foreground/50" }] },
+                  { ln: "7", tokens: [{ t: "  )", c: "text-foreground/60" }] },
+                  { ln: "8", tokens: [{ t: "}", c: "text-foreground/70" }] },
+                ].map(({ ln, tokens }) => (
+                  <div key={ln} className="group/line flex hover:bg-white/[0.02] -mx-5 px-5 rounded-sm transition-colors duration-150">
+                    <span className="w-8 select-none text-muted-foreground/30 text-right mr-4">{ln}</span>
+                    <span>
+                      {tokens.map((tok, ti) => (
+                        <span key={ti} className={tok.c}>{tok.t}</span>
+                      ))}
+                    </span>
+                  </div>
+                ))}
+              </pre>
+              {/* Scan line shimmer */}
+              <div className="pointer-events-none absolute inset-y-0 w-px bg-gradient-to-b from-transparent via-violet-glow/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ left: "40%", animation: "shimmerScan 3s ease-in-out infinite" }} />
+            </div>
+
+            {/* ── Tech badge grid ── */}
+            <div className="grid grid-cols-4 gap-2.5">
+              {techStack.map(({ name, color, category }, idx) => (
+                <div
+                  key={name}
+                  className="group relative flex flex-col items-center gap-1.5 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] p-3 text-center transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:scale-105 hover:-translate-y-0.5"
+                  style={{ animation: inView ? `badgeFloat ${3 + idx * 0.2}s ease-in-out ${idx * 0.4}s infinite` : "none" } as React.CSSProperties}
+                >
+                  <div
+                    className="h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-125"
+                    style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}80` }}
+                  />
+                  <span className="text-[11px] font-semibold text-foreground/80 leading-tight">{name}</span>
+                  <span className="text-[9px] uppercase tracking-[0.1em] text-foreground/30">{category}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="overflow-x-auto"><CodeBlock /></div>
       </div>
     </section>
   );
@@ -1790,28 +2051,142 @@ function DevSection() {
 
 /* ---------- Primitives ---------- */
 function Primitives() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const items = [
-    { name: "Web Development", body: "Custom websites, e-commerce platforms, and SaaS applications built with modern frameworks." },
-    { name: "AI Automation", body: "Intelligent chatbots, workflow automation, and AI agents that streamline your operations." },
-    { name: "UI/UX Design", body: "Beautiful, intuitive interfaces designed to convert visitors into customers." },
-    { name: "Growth Marketing", body: "SEO, CRO, and marketing automation strategies that drive sustainable growth." },
+    {
+      icon: Code2,
+      name: "Web Development",
+      body: "Custom websites, e-commerce platforms, and SaaS applications built with modern frameworks.",
+      tag: "React · Next.js · Node",
+      gradient: "from-sky-500/15 to-sky-400/5",
+      iconBg: "bg-sky-500/10 border-sky-500/20",
+      iconColor: "text-sky-400",
+      accent: "group-hover:border-sky-400/30",
+    },
+    {
+      icon: BrainCircuit,
+      name: "AI Automation",
+      body: "Intelligent chatbots, workflow automation, and AI agents that streamline your operations.",
+      tag: "OpenAI · LangChain",
+      gradient: "from-violet/15 to-violet/5",
+      iconBg: "bg-violet/10 border-violet/20",
+      iconColor: "text-violet-glow",
+      accent: "group-hover:border-violet/30",
+    },
+    {
+      icon: AppWindow,
+      name: "UI/UX Design",
+      body: "Beautiful, intuitive interfaces designed to convert visitors into customers.",
+      tag: "Figma · Framer",
+      gradient: "from-pink-500/15 to-pink-400/5",
+      iconBg: "bg-pink-500/10 border-pink-500/20",
+      iconColor: "text-pink-400",
+      accent: "group-hover:border-pink-400/30",
+    },
+    {
+      icon: LineChart,
+      name: "Growth Marketing",
+      body: "SEO, CRO, and marketing automation strategies that drive sustainable growth.",
+      tag: "Analytics · SEO · CRO",
+      gradient: "from-emerald-500/15 to-emerald-400/5",
+      iconBg: "bg-emerald-500/10 border-emerald-500/20",
+      iconColor: "text-emerald-400",
+      accent: "group-hover:border-emerald-400/30",
+    },
   ];
+
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Our Services" title="Complete digital solutions for modern businesses" />
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:mt-14 lg:grid-cols-4">
-          {items.map((i) => (
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-24"
+    >
+      {/* ── Background ── */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 40% at 50% 100%, oklch(0.62 0.22 290 / 0.09) 0%, transparent 60%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        {/* ── Heading ── */}
+        <div
+          className={inView ? "reveal-up in-view" : "reveal-up"}
+          style={{ animationDelay: "0ms" }}
+        >
+          <SectionHeading eyebrow="Our Services" title="Complete digital solutions for modern businesses" />
+        </div>
+
+        <p
+          className={`mx-auto mt-5 max-w-2xl text-center text-sm text-foreground/55 sm:text-base leading-relaxed ${inView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "80ms" }}
+        >
+          Four core practice areas — each staffed by specialists — delivering end-to-end ownership
+          from strategy through production and beyond.
+        </p>
+
+        {/* ── Cards ── */}
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:mt-16 lg:grid-cols-4">
+          {items.map(({ icon: Icon, name, body, tag, gradient, iconBg, iconColor, accent }, idx) => (
             <div
-              key={i.name}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-violet/40 hover:bg-white/[0.06]"
+              key={name}
+              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-card-dark p-6 transition-all duration-500 ${accent} hover:shadow-[0_8px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1 ${inView ? "reveal-scale in-view" : "reveal-scale"}`}
+              style={{ animationDelay: `${120 + idx * 100}ms` }}
             >
-              <div className="mb-4 h-10 w-10 rounded-lg bg-gradient-to-br from-violet to-violet-glow shadow-violet-glow" />
-              <h4 className="text-lg font-semibold">{i.name}</h4>
-              <p className="mt-2 text-sm text-foreground/70">{i.body}</p>
-              <a href="#" className="mt-4 inline-flex text-sm text-violet-glow opacity-0 transition group-hover:opacity-100">
-                Learn more
-              </a>
+              {/* gradient layer */}
+              <div
+                className={`pointer-events-none absolute inset-0 bg-gradient-to-b ${gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
+              />
+              {/* top edge accent line */}
+              <div
+                className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+              />
+
+              <div className="relative">
+                {/* Icon */}
+                <div
+                  className={`mb-5 flex h-10 w-10 items-center justify-center rounded-xl border ${iconBg} transition-all duration-300 group-hover:scale-110`}
+                >
+                  <Icon className={`h-5 w-5 ${iconColor}`} />
+                </div>
+
+                {/* Title */}
+                <h4 className="text-base font-bold tracking-tight text-foreground">{name}</h4>
+
+                {/* Body */}
+                <p className="mt-2.5 text-sm leading-relaxed text-foreground/55">{body}</p>
+
+                {/* Tag */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {tag.split(" · ").map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-md border border-white/[0.08] bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-foreground/40 transition-colors duration-200 group-hover:border-white/15 group-hover:text-foreground/60"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <div className="mt-5 flex items-center gap-1 text-xs font-semibold text-violet-glow/0 transition-all duration-300 group-hover:text-violet-glow/80 group-hover:gap-2">
+                  Learn more <ArrowRight className="h-3 w-3" />
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -1821,88 +2196,488 @@ function Primitives() {
 }
 
 /* ---------- Data Policies ---------- */
+
+/**
+ * PolicyCard — glassmorphism terminal-style rule block.
+ * Renders a single "Allow Decryption" rule with operator-chain conditions
+ * in a monospaced, glowing card matching the project's cyberpunk palette.
+ */
 function PolicyCard({
   service,
   conditions,
+  icon: Icon,
+  active = true,
 }: {
   service: string;
   conditions: { label: string; value: string }[];
+  icon?: React.ElementType;
+  active?: boolean;
 }) {
+  const [isActive, setIsActive] = useState(active);
+
   return (
-    <div className="rounded-2xl border border-white/10 bg-card-dark p-5 font-mono text-[13px]">
-      <div className="text-foreground/70">
-        <span className="text-violet-glow">Allow Decryption</span> for{" "}
-        <span className="rounded bg-white/10 px-1.5 py-0.5 text-foreground">{service}</span>
-      </div>
-      <div className="mt-3 space-y-2 text-foreground/80">
-        {conditions.map((c, i) => (
-          <div key={i}>
-            <span className="text-muted-foreground">{i === 0 ? "when " : "and "}</span>
-            {c.label}{" "}
-            <span className="rounded bg-white/10 px-1.5 py-0.5 text-foreground">{c.value}</span>
+    <div
+      className={[
+        "group relative overflow-hidden rounded-2xl border font-mono text-[13px] transition-all duration-300",
+        isActive
+          ? "border-violet/30 bg-card-dark hover:border-violet/50 hover:shadow-[0_0_30px_rgba(124,92,216,0.15)]"
+          : "border-white/10 bg-white/[0.02] hover:border-white/20",
+      ].join(" ")}
+    >
+      {/* Ambient glow — only on active cards */}
+      {isActive && (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background:
+              "radial-gradient(ellipse at 0% 0%, oklch(0.62 0.22 290 / 0.12) 0%, transparent 60%)",
+          }}
+        />
+      )}
+
+      <div className="relative p-5">
+        {/* ── Header row: icon + status toggle ── */}
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {Icon && (
+              <div
+                className={[
+                  "flex h-7 w-7 items-center justify-center rounded-lg transition-colors duration-200",
+                  isActive
+                    ? "bg-violet/20 text-violet-glow"
+                    : "bg-white/[0.05] text-foreground/30",
+                ].join(" ")}
+              >
+                <Icon className="h-3.5 w-3.5" />
+              </div>
+            )}
+            <span
+              className={[
+                "text-[10px] font-bold uppercase tracking-[0.18em] transition-colors duration-200",
+                isActive ? "text-violet-glow" : "text-foreground/30",
+              ].join(" ")}
+            >
+              {isActive ? "Active" : "Disabled"}
+            </span>
           </div>
-        ))}
+
+          {/* Toggle pill */}
+          <button
+            onClick={() => setIsActive((v) => !v)}
+            aria-label={isActive ? "Disable policy" : "Enable policy"}
+            className={[
+              "relative h-5 w-9 rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet/50",
+              isActive
+                ? "border-violet/50 bg-violet/30"
+                : "border-white/15 bg-white/[0.05]",
+            ].join(" ")}
+          >
+            <span
+              className={[
+                "absolute top-0.5 h-4 w-4 rounded-full transition-all duration-300 shadow-sm",
+                isActive
+                  ? "left-[17px] bg-violet-glow shadow-[0_0_8px_oklch(0.78_0.18_295/0.8)]"
+                  : "left-0.5 bg-foreground/25",
+              ].join(" ")}
+            />
+          </button>
+        </div>
+
+        {/* ── Rule definition ── */}
+        <div className="leading-relaxed text-foreground/70">
+          <span
+            className={[
+              "font-semibold transition-colors duration-200",
+              isActive ? "text-violet-glow" : "text-foreground/40",
+            ].join(" ")}
+          >
+            Allow Decryption
+          </span>{" "}
+          <span className="text-foreground/40">for</span>{" "}
+          <span className="rounded-md border border-white/10 bg-white/[0.06] px-1.5 py-0.5 text-foreground/90">
+            {service}
+          </span>
+        </div>
+
+        {/* ── Condition chain ── */}
+        <div className="mt-3 space-y-2 text-foreground/70">
+          {conditions.map((c, i) => (
+            <div key={i} className="flex flex-wrap items-center gap-1.5">
+              <span className="text-foreground/35">{i === 0 ? "when" : "and"}</span>
+              <span className="text-foreground/70">{c.label}</span>
+              <span className="rounded-md border border-violet/20 bg-violet/[0.08] px-1.5 py-0.5 text-violet-glow/90 transition-colors duration-200 group-hover:border-violet/35 group-hover:bg-violet/[0.12]">
+                {c.value}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Footer action ── */}
+        <div className="mt-4 flex items-center justify-between border-t border-white/[0.06] pt-3">
+          <button className="flex items-center gap-1 text-xs text-violet-glow/60 transition-colors duration-200 hover:text-violet-glow">
+            <span className="text-base leading-none">+</span> Add condition
+          </button>
+          <span className="text-[10px] text-foreground/25 font-mono">POLICY · v2</span>
+        </div>
       </div>
-      <button className="mt-4 text-xs text-violet-glow">+ Add condition</button>
     </div>
   );
 }
 
-function PoliciesAudit() {
-  const audit = [
-    ["Claude", "created Relay to", "api.stripe.com"],
-    ["Lucy", "created Merchant", "Ollivander's Wand Shop"],
-    ["Nev", "created API Key", "EU Resources Key"],
-    ["Eoin", "deleted Function", "validate-credit-card"],
-    ["Anna", "invited", "steve@acme.co"],
-    ["Thomas", "updated Relay", "api.adyen.com"],
-    ["Sara", "deleted API Key", "Synthetics Test"],
-    ["Dylan", "deployed Enclave", "hello-enclave"],
-  ];
+/**
+ * AuditRow action badge — colours the verb (created/deleted/updated/deployed/invited)
+ * with semantic meaning: green = create/deploy, red = delete, amber = update, violet = invite.
+ */
+function ActionBadge({ action }: { action: string }) {
+  const verb = action.split(" ")[0].toLowerCase();
+  const styles: Record<string, string> = {
+    created:  "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    deployed: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    invited:  "bg-violet/10 text-violet-glow border-violet/20",
+    updated:  "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    deleted:  "bg-red-500/10 text-red-400 border-red-500/20",
+  };
+  const cls = styles[verb] ?? "bg-white/[0.05] text-foreground/50 border-white/10";
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Control" title="Granular data policies, full audit visibility" />
-        <div className="mt-10 grid gap-8 md:grid-cols-2 sm:mt-14">
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Data Policies
-            </h4>
-            <PolicyCard
-              service="api.stripe.com"
-              conditions={[
-                { label: "Request IP equals", value: "92.158.1.38" },
-                { label: "Region equals", value: "US (Virginia)" },
-              ]}
-            />
-            <PolicyCard
-              service="api.twilio.com"
-              conditions={[
-                { label: "Timestamp is before", value: "20/08/2024" },
-                { label: "Region equals", value: "EU (Ireland)" },
-              ]}
-            />
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Audit Logging
-            </h4>
-            <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-card-dark">
-              {audit.map(([who, action, target], i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 sm:gap-3 border-b border-white/5 px-3 sm:px-5 py-3 text-sm last:border-b-0"
-                >
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet to-violet-glow text-[11px] font-semibold">
-                    {who[0]}
-                  </div>
-                  <div className="font-medium shrink-0">{who}</div>
-                  <div className="text-muted-foreground hidden sm:block">{action}</div>
-                  <div className="ml-auto truncate font-mono text-xs text-foreground/80 max-w-[100px] sm:max-w-none">{target}</div>
+    <span
+      className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${cls}`}
+    >
+      {verb}
+    </span>
+  );
+}
+
+/**
+ * PoliciesAudit — "Granular data policies, full audit visibility"
+ *
+ * Left column: interactive policy rule cards with live toggle, glow effects,
+ * and a condition-chain builder in terminal/mono style.
+ *
+ * Right column: real-time audit log stream with semantic action badges,
+ * animated entrance, and a pulsing "live" indicator.
+ */
+/* Audit log entries — static, module-level to avoid useEffect re-render dependency */
+const AUDIT_LOG: [string, string, string][] = [
+  ["Claude",  "created Relay to",     "api.stripe.com"],
+  ["Lucy",    "created Merchant",     "Ollivander's Wand Shop"],
+  ["Nev",     "created API Key",      "EU Resources Key"],
+  ["Eoin",    "deleted Function",     "validate-credit-card"],
+  ["Anna",    "invited",              "steve@acme.co"],
+  ["Thomas",  "updated Relay",        "api.adyen.com"],
+  ["Sara",    "deleted API Key",      "Synthetics Test"],
+  ["Dylan",   "deployed Enclave",     "hello-enclave"],
+];
+
+function PoliciesAudit() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [sectionInView, setSectionInView] = useState(false);
+
+  /* Scroll-triggered section reveal */
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setSectionInView(true); observer.disconnect(); } },
+      { threshold: 0.08 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  /* Staggered audit-row entrance: rows fade up one-by-one after section enters view */
+  const [visibleRows, setVisibleRows] = useState(0);
+  useEffect(() => {
+    if (!sectionInView) return;
+    const timers = AUDIT_LOG.map((_, i) =>
+      setTimeout(() => setVisibleRows((v) => Math.max(v, i + 1)), 300 + i * 100),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [sectionInView]);
+
+  /* Live event counter — increments after each row reveals */
+  const [eventCount, setEventCount] = useState(0);
+  useEffect(() => {
+    if (!sectionInView) return;
+    const interval = setInterval(() =>
+      setEventCount((v) => (v < AUDIT_LOG.length ? v + 1 : v)), 400
+    );
+    return () => clearInterval(interval);
+  }, [sectionInView]);
+
+  const audit = AUDIT_LOG;
+
+  /* Avatar colour pool — cycle through accent shades */
+  const avatarGradients = [
+    "from-violet to-violet-glow",
+    "from-violet-glow to-[oklch(0.55_0.25_260)]",
+    "from-[oklch(0.55_0.25_260)] to-violet",
+    "from-[oklch(0.65_0.22_310)] to-violet-glow",
+  ];
+
+  const capabilities = [
+    { icon: ShieldCheck, label: "Policy-as-code",       sub: "Version-controlled rules", color: "group-hover:text-violet-glow", hover: "hover:border-violet/30 hover:bg-violet/[0.04]" },
+    { icon: Lock,        label: "Zero-trust model",     sub: "Deny by default",          color: "group-hover:text-amber-400",   hover: "hover:border-amber-400/25 hover:bg-amber-400/[0.04]" },
+    { icon: Database,    label: "Immutable audit log",  sub: "Append-only, signed",      color: "group-hover:text-sky-400",     hover: "hover:border-sky-400/25 hover:bg-sky-400/[0.04]" },
+    { icon: Zap,         label: "Real-time enforcement",sub: "< 2 ms eval latency",      color: "group-hover:text-emerald-400", hover: "hover:border-emerald-400/25 hover:bg-emerald-400/[0.04]" },
+  ];
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden border-y border-white/5 px-4 py-20 sm:px-6 sm:py-24 md:py-32"
+    >
+      {/* ── Multi-layer ambient background ── */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 65% at 50% 0%, oklch(0.62 0.22 290 / 0.13) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 100% 80%, oklch(0.55 0.25 260 / 0.07) 0%, transparent 55%)",
+        }}
+      />
+      {/* Drifting orb */}
+      <div
+        className="pointer-events-none absolute left-1/4 top-1/4 h-[400px] w-[400px] rounded-full opacity-20"
+        style={{
+          background: "radial-gradient(circle, oklch(0.62 0.22 290 / 0.3) 0%, transparent 70%)",
+          animation: "glowDrift 18s ease-in-out infinite",
+        }}
+      />
+      {/* Dot-grid texture overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "radial-gradient(circle, oklch(1 0 0) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        {/* ── Section heading ── */}
+        <div
+          className={sectionInView ? "reveal-up in-view" : "reveal-up"}
+          style={{ animationDelay: "0ms" }}
+        >
+          <SectionHeading eyebrow="Control" title="Granular data policies, full audit visibility" />
+        </div>
+
+        <p
+          className={`mx-auto mt-5 max-w-2xl px-4 text-center text-sm text-foreground/60 sm:mt-6 sm:px-0 sm:text-base leading-relaxed ${sectionInView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "80ms" }}
+        >
+          Define fine-grained rules that govern exactly when and where your encrypted data
+          can be decrypted — and maintain a cryptographically-signed, tamper-evident log
+          of every action across your entire team.
+        </p>
+
+        {/* ── Two-column layout ── */}
+        <div className="mt-12 grid gap-8 sm:mt-16 md:grid-cols-2 md:gap-10 lg:gap-14">
+
+          {/* ══ LEFT: Data Policies ══ */}
+          <div
+            className={sectionInView ? "reveal-left in-view" : "reveal-left"}
+            style={{ animationDelay: "160ms" }}
+          >
+            {/* Column header */}
+            <div className="mb-5 flex items-center gap-3">
+              <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-violet/30 bg-violet/10">
+                {/* pulse ring */}
+                <span
+                  className="absolute inset-0 rounded-xl border border-violet/40"
+                  style={{ animation: "pulseRing 2.5s ease-out infinite" }}
+                />
+                <Lock className="h-4 w-4 text-violet-glow" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-foreground">Data Policies</h4>
+                <p className="text-[11px] text-muted-foreground">2 active · 0 violations</p>
+              </div>
+              {/* Live indicator */}
+              <div className="ml-auto flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/[0.07] px-2.5 py-1">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+                  style={{ animation: "glowPulse 2s ease-in-out infinite" }}
+                />
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-400">
+                  Live
+                </span>
+              </div>
+            </div>
+
+            {/* Policy cards */}
+            <div className="space-y-4">
+              <PolicyCard
+                icon={ShieldCheck}
+                service="api.stripe.com"
+                conditions={[
+                  { label: "Request IP equals", value: "92.158.1.38" },
+                  { label: "Region equals",     value: "US (Virginia)" },
+                ]}
+                active={true}
+              />
+              <PolicyCard
+                icon={Server}
+                service="api.twilio.com"
+                conditions={[
+                  { label: "Timestamp is before", value: "20/08/2024" },
+                  { label: "Region equals",        value: "EU (Ireland)" },
+                ]}
+                active={true}
+              />
+            </div>
+
+            {/* Add policy CTA — upgraded */}
+            <button className="group mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 py-3.5 text-sm text-foreground/35 transition-all duration-300 hover:border-violet/35 hover:bg-violet/[0.05] hover:text-violet-glow/80">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 text-sm leading-none transition-all duration-300 group-hover:border-violet/40 group-hover:bg-violet/10">+</span>
+              New policy rule
+            </button>
+
+            {/* ── Security score badge ── */}
+            <div className="mt-5 flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/10">
+                <ShieldCheck className="h-5 w-5 text-emerald-400" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-foreground/70">Security posture</span>
+                  <span className="text-xs font-bold text-emerald-400">98/100</span>
                 </div>
-              ))}
+                <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                    style={{
+                      width: sectionInView ? "98%" : "0%",
+                      transition: "width 1.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                      transitionDelay: "600ms",
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* ══ RIGHT: Audit Log ══ */}
+          <div
+            className={sectionInView ? "reveal-right in-view" : "reveal-right"}
+            style={{ animationDelay: "200ms" }}
+          >
+            {/* Column header */}
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                <Database className="h-4 w-4 text-foreground/50" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-foreground">Audit Logging</h4>
+                <p className="text-[11px] text-muted-foreground">Tamper-evident · Append-only</p>
+              </div>
+              {/* Animated event count badge */}
+              <div className="ml-auto flex items-center gap-1.5 overflow-hidden rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1">
+                <span className="font-mono text-[10px] font-bold text-foreground/60">
+                  {eventCount}
+                </span>
+                <span className="text-[10px] text-foreground/30">events</span>
+              </div>
+            </div>
+
+            {/* Log stream — upgraded terminal */}
+            <div className="group overflow-hidden rounded-2xl border border-white/10 bg-card-dark transition-all duration-500 hover:border-white/[0.15] hover:shadow-[0_0_40px_rgba(124,92,216,0.10)]">
+              {/* Terminal title bar */}
+              <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-500/50 transition-colors duration-200 group-hover:bg-red-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-500/50 transition-colors duration-200 group-hover:bg-amber-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/50 transition-colors duration-200 group-hover:bg-emerald-400/70" />
+                <span className="ml-2 font-mono text-[11px] text-muted-foreground/60">
+                  audit.log — live stream
+                </span>
+                <span className="ml-auto flex items-center gap-1">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+                    style={{ animation: "glowPulse 1.8s ease-in-out infinite" }}
+                  />
+                  <span className="font-mono text-[10px] text-emerald-400/70">LIVE</span>
+                </span>
+              </div>
+
+              {/* Log rows */}
+              <div className="divide-y divide-white/[0.04]">
+                {audit.map(([who, action, target], i) => (
+                  <div
+                    key={i}
+                    className="group/row flex items-center gap-2.5 px-3 py-2.5 transition-all duration-200 hover:bg-white/[0.04] sm:gap-3 sm:px-4"
+                    style={{
+                      opacity: visibleRows > i ? 1 : 0,
+                      transform: visibleRows > i ? "translateY(0)" : "translateY(8px)",
+                      transition: "opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+                    }}
+                  >
+                    {/* Avatar */}
+                    <div
+                      className={`relative grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br ${
+                        avatarGradients[i % avatarGradients.length]
+                      } text-[11px] font-bold text-white shadow-sm transition-transform duration-200 group-hover/row:scale-110`}
+                    >
+                      {who[0]}
+                    </div>
+
+                    {/* Actor name */}
+                    <span className="w-12 shrink-0 text-sm font-semibold text-foreground/80 sm:w-14">
+                      {who}
+                    </span>
+
+                    {/* Action badge */}
+                    <ActionBadge action={action} />
+
+                    {/* Action remainder (hidden on small screens) */}
+                    <span className="hidden truncate text-xs text-muted-foreground/70 sm:block">
+                      {action.split(" ").slice(1).join(" ")}
+                    </span>
+
+                    {/* Target resource */}
+                    <span className="ml-auto max-w-[110px] truncate font-mono text-[11px] text-foreground/40 transition-colors duration-200 group-hover/row:text-foreground/60 sm:max-w-none">
+                      {target}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between border-t border-white/[0.06] px-4 py-2.5">
+                <span className="flex items-center gap-1.5 text-[10px] text-foreground/30">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-emerald-400/70"
+                    style={{ animation: "glowPulse 2.5s ease-in-out infinite" }}
+                  />
+                  Streaming · AES-256 at rest · TLS 1.3 in flight
+                </span>
+                <button className="text-[10px] text-violet-glow/50 transition-colors duration-150 hover:text-violet-glow">
+                  Export CSV →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Bottom capability strip — upgraded ── */}
+        <div
+          className={`mt-12 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-4 ${sectionInView ? "reveal-up in-view" : "reveal-up"}`}
+          style={{ animationDelay: "360ms" }}
+        >
+          {capabilities.map(({ icon: Icon, label, sub, color, hover }, idx) => (
+            <div
+              key={label}
+              className={`group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-all duration-300 ${hover} hover:shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:-translate-y-0.5`}
+              style={{ animationDelay: `${400 + idx * 60}ms` }}
+            >
+              {/* Top accent line */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div
+                className={`mb-3 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] transition-all duration-200 group-hover:scale-110 group-hover:border-white/20 group-hover:bg-white/[0.08]`}
+              >
+                <Icon className={`h-4 w-4 text-foreground/40 transition-colors duration-200 ${color}`} />
+              </div>
+              <p className="text-sm font-bold text-foreground/80">{label}</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground/70">{sub}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -1919,7 +2694,7 @@ function Pricing() {
     {
       name: "Starter",
       description: "Essential creative services for growing startups and businesses.",
-      price: { monthly: 3500, annually: 2800 },
+      price: { monthly: 18000, annually: 14400 },
       cta: "Choose Starter",
       highlight: false,
       glowColor: "violet" as const,
@@ -1940,7 +2715,7 @@ function Pricing() {
     {
       name: "Professional",
       description: "Our most popular plan. A full-service creative solution for scaling brands.",
-      price: { monthly: 7200, annually: 5760 },
+      price: { monthly: 49000, annually: 39200 },
       cta: "Choose Professional",
       highlight: true,
       badge: "Most Popular",
@@ -1987,7 +2762,7 @@ function Pricing() {
 
   return (
     <>
-    <section id="pricing" className="relative overflow-hidden py-28 sm:py-36">
+    <section id="pricing" className="relative overflow-hidden py-16 sm:py-24 md:py-28 lg:py-36">
 
       {/* ── Deep dark canvas ── */}
       <div className="absolute inset-0 bg-[oklch(0.06_0.02_280)]" />
@@ -2013,8 +2788,8 @@ function Pricing() {
 
         {/* ── Section header ── */}
         <div className="text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-violet-glow mb-4">Pricing Plans</p>
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-violet-glow mb-3 sm:mb-4">Pricing Plans</p>
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             <span
               style={{
                 background: "linear-gradient(135deg, oklch(0.98 0.005 280) 0%, oklch(0.98 0.005 280) 50%, oklch(0.78 0.18 295) 100%)",
@@ -2037,40 +2812,114 @@ function Pricing() {
               real creative value.
             </span>
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-sm text-foreground/50 sm:text-base leading-relaxed">
+          <p className="mx-auto mt-4 max-w-xl px-4 text-sm text-foreground/50 sm:px-0 sm:text-base leading-relaxed sm:mt-6">
             Supercharge your brand with design, development, and marketing automation.
             Simple monthly pricing. Cancel or pause anytime.
           </p>
         </div>
 
-        {/* ── Billing toggle — pill-style sliding indicator ── */}
-        <div className="mt-10 flex items-center justify-center">
-          <div className="relative flex items-center rounded-2xl border border-white/[0.09] bg-white/[0.04] p-1 backdrop-blur-sm">
-            {/* sliding pill */}
+        {/* ── Billing toggle ── */}
+        <div className="mt-10 flex flex-col items-center gap-3">
+          {/* Track */}
+          <div
+            role="group"
+            aria-label="Billing period"
+            className="relative flex items-stretch rounded-[18px] border border-white/[0.10] bg-[oklch(0.10_0.025_280)] p-1 shadow-[inset_0_1px_0_oklch(1_0_0_/_0.06)] backdrop-blur-sm"
+          >
+            {/* Sliding thumb */}
             <div
-              className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-xl bg-white/[0.10] border border-white/[0.12] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-              style={{ left: billingPeriod === "monthly" ? "4px" : "calc(50%)" }}
+              aria-hidden="true"
+              className="pointer-events-none absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-[13px] transition-all duration-[380ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              style={{
+                left: billingPeriod === "monthly" ? "4px" : "calc(50%)",
+                background: billingPeriod === "annually"
+                  ? "linear-gradient(135deg,oklch(0.45 0.22 290),oklch(0.38 0.20 265))"
+                  : "oklch(0.18 0.04 280)",
+                boxShadow: billingPeriod === "annually"
+                  ? "0 0 18px oklch(0.62 0.22 290 / 0.45), inset 0 1px 0 oklch(1 0 0 / 0.12)"
+                  : "inset 0 1px 0 oklch(1 0 0 / 0.08)",
+                border: billingPeriod === "annually"
+                  ? "1px solid oklch(0.62 0.22 290 / 0.50)"
+                  : "1px solid oklch(1 0 0 / 0.10)",
+              }}
             />
+
+            {/* Monthly button */}
             <button
               onClick={() => setBillingPeriod("monthly")}
-              className={`relative z-10 px-6 py-2.5 text-sm font-medium rounded-xl transition-colors duration-200 ${billingPeriod === "monthly" ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"}`}
+              aria-pressed={billingPeriod === "monthly"}
+              className="relative z-10 flex items-center gap-2 rounded-[13px] px-7 py-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet/50 select-none"
+              style={{
+                color: billingPeriod === "monthly"
+                  ? "oklch(0.96 0.005 280)"
+                  : "oklch(0.96 0.005 280 / 0.38)",
+              }}
             >
+              {/* Calendar icon */}
+              <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1.5" y="3.5" width="13" height="11" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+                <path d="M1.5 7h13" stroke="currentColor" strokeWidth="1.4"/>
+                <path d="M5 1.5v2M11 1.5v2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+              </svg>
               Monthly
             </button>
+
+            {/* Annual button */}
             <button
               onClick={() => setBillingPeriod("annually")}
-              className={`relative z-10 flex items-center gap-2 px-6 py-2.5 text-sm font-medium rounded-xl transition-colors duration-200 ${billingPeriod === "annually" ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"}`}
+              aria-pressed={billingPeriod === "annually"}
+              className="relative z-10 flex items-center gap-2.5 rounded-[13px] px-7 py-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet/50 select-none"
+              style={{
+                color: billingPeriod === "annually"
+                  ? "oklch(0.96 0.005 280)"
+                  : "oklch(0.96 0.005 280 / 0.38)",
+              }}
             >
+              {/* Zap icon */}
+              <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M9 1.5 L4 9h5.5L7 14.5 L12 7H6.5L9 1.5Z" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round" strokeLinecap="round"/>
+              </svg>
               Annually
-              <span className="rounded-full bg-violet/25 border border-violet-glow/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-violet-glow">
-                −20%
+              {/* Save badge — slides in when annual is active */}
+              <span
+                className="overflow-hidden transition-all duration-300"
+                style={{
+                  maxWidth: billingPeriod === "annually" ? "56px" : "0px",
+                  opacity: billingPeriod === "annually" ? 1 : 0,
+                }}
+              >
+                <span
+                  className="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide"
+                  style={{
+                    background: "oklch(0.62 0.22 290 / 0.22)",
+                    border: "1px solid oklch(0.62 0.22 290 / 0.40)",
+                    color: "oklch(0.85 0.16 295)",
+                  }}
+                >
+                  −20%
+                </span>
               </span>
             </button>
           </div>
+
+          {/* Savings hint — only visible when annual is selected */}
+          <p
+            className="text-[11px] text-foreground/40 transition-all duration-300 leading-none"
+            style={{
+              opacity: billingPeriod === "annually" ? 1 : 0,
+              transform: billingPeriod === "annually" ? "translateY(0)" : "translateY(-4px)",
+            }}
+          >
+            You save up to{" "}
+            <span className="font-semibold" style={{ color: "oklch(0.78 0.18 295)" }}>
+              ₹{(49000 - 39200).toLocaleString("en-IN")} / mo
+            </span>{" "}
+            on the Professional plan
+          </p>
         </div>
 
         {/* ── Cards grid ── */}
-        <div className="mt-14 grid gap-5 grid-cols-1 md:grid-cols-3 md:items-stretch sm:mt-16">
+        <div className="mt-10 grid gap-4 grid-cols-1 md:grid-cols-3 md:items-stretch sm:mt-12 md:mt-14 lg:gap-5">
           {plans.map((plan, planIdx) => {
             const isHighlight = plan.highlight;
             const isHovered   = hoveredPlan === plan.name;
@@ -2127,7 +2976,7 @@ function Pricing() {
                   isHighlight ? "via-violet-glow/60 opacity-100" : isHovered ? "via-white/20 opacity-100" : "via-white/8 opacity-60",
                 ].join(" ")} />
 
-                <div className="relative flex flex-col h-full p-7 sm:p-8">
+                <div className="relative flex flex-col h-full p-5 sm:p-7 md:p-6 lg:p-8">
 
                   {/* ── Card top: icon + badge ── */}
                   <div className="flex items-start justify-between mb-6">
@@ -2167,12 +3016,12 @@ function Pricing() {
                   <p className="mt-2 text-sm text-foreground/45 leading-relaxed">{plan.description}</p>
 
                   {/* ── Price ── */}
-                  <div className="mt-7 flex items-baseline gap-1.5">
+                  <div className="mt-5 flex items-baseline gap-1.5 sm:mt-7">
                     {typeof currentPrice === "number" ? (
                       <>
-                        <span className="text-lg font-semibold text-foreground/40">₹</span>
+                        <span className="text-base font-semibold text-foreground/40 sm:text-lg">₹</span>
                         <span className={[
-                          "text-5xl font-extrabold tracking-tight leading-none transition-all duration-300",
+                          "text-4xl font-extrabold tracking-tight leading-none transition-all duration-300 sm:text-5xl",
                           isHighlight ? "text-foreground" : "text-foreground/90",
                         ].join(" ")}>
                           {currentPrice.toLocaleString("en-IN")}
@@ -2326,16 +3175,16 @@ function Testimonials() {
     },
   ];
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20 md:py-28">
+    <section className="px-4 py-12 sm:px-6 sm:py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow="Client Success" title="Trusted by businesses that demand excellence" />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 sm:mt-14">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 md:grid-cols-3 sm:mt-12 md:mt-14">
           {quotes.map((t) => (
             <figure
               key={t.who}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm"
+              className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm sm:p-6"
             >
-              <blockquote className="text-base leading-relaxed text-foreground/90">"{t.q}"</blockquote>
+              <blockquote className="text-sm leading-relaxed text-foreground/90 sm:text-base">"{t.q}"</blockquote>
               <figcaption className="mt-6 flex items-center gap-3 text-sm">
                 <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet to-violet-glow text-xs font-semibold">
                   {t.who[0]}
@@ -2356,24 +3205,24 @@ function Testimonials() {
 /* ---------- CTA ---------- */
 function CTA() {
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28 md:py-32">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 md:py-28 lg:py-32">
       <div className="absolute inset-0 bg-hero-gradient" />
       <div className="absolute inset-0 [background:radial-gradient(circle_at_50%_50%,rgba(170,120,255,0.4),transparent_60%)]" />
-      <div className="relative mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-6xl">
+      <div className="relative mx-auto max-w-3xl px-2 text-center sm:px-0">
+        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl lg:text-6xl">
           Ready to transform your digital presence?
         </h2>
-        <p className="mt-5 text-sm text-foreground/80 sm:mt-6 sm:text-base">
+        <p className="mt-4 text-sm text-foreground/80 sm:mt-5 sm:text-base md:mt-6">
           Let's build something amazing together. Get a free consultation and project quote today.
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+        <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row sm:gap-4 md:mt-10">
           <a
             href="#"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet to-violet-glow px-6 py-3 text-sm font-medium text-white shadow-lg shadow-violet/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet/40 hover:scale-105 sm:w-auto"
+            className="inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet to-violet-glow px-6 py-3 text-sm font-medium text-white shadow-lg shadow-violet/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet/40 hover:scale-105 sm:w-auto"
           >
             Schedule a Call
           </a>
-          <a href="#" className="text-sm text-foreground/85 hover:text-foreground">
+          <a href="#" className="inline-flex min-h-[44px] items-center text-sm text-foreground/85 hover:text-foreground">
             View Portfolio
           </a>
         </div>
@@ -2398,12 +3247,12 @@ function Footer() {
   ];
 
   return (
-    <footer className="relative bg-background overflow-hidden px-4 py-10 sm:px-6 sm:py-12 md:py-16">
+    <footer className="relative bg-background overflow-hidden px-4 py-8 sm:px-6 sm:py-10 md:py-14 lg:py-16">
       {/* ── Two-card grid (Kresna-inspired) ── */}
-      <div className="mx-auto grid max-w-[1150px] gap-4 grid-cols-1 md:grid-cols-[350px_1fr]">
+      <div className="mx-auto grid max-w-[1150px] gap-4 grid-cols-1 md:grid-cols-[280px_1fr] lg:grid-cols-[350px_1fr]">
 
         {/* ═══ LEFT CARD — Gradient visual ═══ */}
-        <div className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[28px] p-6 sm:p-8 md:min-h-[340px]"
+        <div className="relative flex min-h-[260px] flex-col justify-between overflow-hidden rounded-[24px] p-5 sm:rounded-[28px] sm:p-7 md:min-h-[320px] md:p-8 lg:min-h-[340px]"
           style={{
             background: "linear-gradient(145deg, oklch(0.55 0.25 290) 0%, oklch(0.38 0.22 285) 50%, oklch(0.22 0.15 280) 100%)",
             boxShadow: "0 12px 40px oklch(0.45 0.22 290 / 0.3)",
@@ -2421,8 +3270,8 @@ function Footer() {
           </div>
 
           {/* Tagline */}
-          <div className="relative z-10 mb-7 mt-auto">
-            <p className="text-[19px] font-normal leading-[1.45] text-white">
+          <div className="relative z-10 mb-5 mt-auto sm:mb-7">
+            <p className="text-base font-normal leading-[1.45] text-white sm:text-[19px]">
               Smarter digital growth,<br/>
               <span className="text-white/65">powered by AI &amp; design.</span>
             </p>
@@ -2446,18 +3295,18 @@ function Footer() {
         </div>
 
         {/* ═══ RIGHT CARD — Navigation + Subscribe ═══ */}
-        <div className="relative flex flex-col justify-between overflow-visible rounded-[28px] bg-secondary p-6 sm:p-8 md:p-10 mt-12 md:mt-0"
+        <div className="relative flex flex-col justify-between overflow-visible rounded-[24px] bg-secondary p-5 sm:rounded-[28px] sm:p-7 md:p-8 lg:p-10 mt-10 md:mt-0"
           style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
 
           {/* Floating badge */}
-          <div className="absolute -top-9 right-4 z-10 flex flex-col items-start gap-1.5 sm:right-10 md:right-12">
-            <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-[22px] shadow-[8px_14px_28px_oklch(0.45_0.22_290_/_0.35)]"
+          <div className="absolute -top-8 right-3 z-10 flex flex-col items-start gap-1.5 sm:-top-9 sm:right-8 md:right-10 lg:right-12">
+            <div className="flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center rounded-[18px] sm:rounded-[22px] shadow-[8px_14px_28px_oklch(0.45_0.22_290_/_0.35)]"
               style={{
                 background: "linear-gradient(135deg, oklch(0.68 0.18 290) 0%, oklch(0.45 0.22 285) 55%, oklch(0.38 0.20 282) 100%)",
                 transform: "rotate(-10deg)",
                 boxShadow: "inset 3px 3px 8px rgba(255,255,255,0.35), inset -3px -3px 12px rgba(0,0,0,0.18), 8px 14px 28px oklch(0.45 0.22 290 / 0.35)",
               }}>
-              <span className="text-[36px] sm:text-[42px] font-bold text-white" style={{ transform: "rotate(10deg)", letterSpacing: "-0.04em", textShadow: "0 3px 6px rgba(0,0,0,0.25)" }}>B</span>
+              <span className="text-[28px] sm:text-[36px] md:text-[42px] font-bold text-white" style={{ transform: "rotate(10deg)", letterSpacing: "-0.04em", textShadow: "0 3px 6px rgba(0,0,0,0.25)" }}>B</span>
             </div>
             <div className="flex items-center gap-1.5" style={{ transform: "rotate(-4deg)", marginTop: "4px" }}>
               <svg className="h-[22px] w-[22px] text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -2468,14 +3317,14 @@ function Footer() {
           </div>
 
           {/* Navigation columns */}
-          <div className="flex flex-wrap gap-x-6 gap-y-6 pt-2 sm:gap-x-10 sm:gap-y-8 md:gap-x-16">
+          <div className="flex flex-wrap gap-x-5 gap-y-5 pt-10 sm:gap-x-8 sm:gap-y-6 sm:pt-8 md:gap-x-12 lg:gap-x-16">
             {navCols.map((col) => (
               <div key={col.title}>
-                <h5 className="mb-3 text-[18px] font-semibold italic text-muted-foreground/60 sm:mb-4 sm:text-[24px]">{col.title}</h5>
-                <ul className="space-y-3">
+                <h5 className="mb-2.5 text-[15px] font-semibold italic text-muted-foreground/60 sm:mb-3 sm:text-[18px] md:text-[20px] lg:text-[24px]">{col.title}</h5>
+                <ul className="space-y-2.5 sm:space-y-3">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-[14px] font-semibold text-foreground transition-colors duration-200 hover:text-violet">
+                      <a href="#" className="inline-flex min-h-[36px] items-center text-[13px] font-semibold text-foreground transition-colors duration-200 hover:text-violet sm:text-[14px]">
                         {link}
                       </a>
                     </li>
@@ -2486,16 +3335,16 @@ function Footer() {
           </div>
 
           {/* Bottom: CTA + subscribe */}
-          <div className="mt-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-            <p className="text-[12.5px] font-medium text-muted-foreground">
+          <div className="mt-8 flex flex-col items-start justify-between gap-5 sm:mt-10 md:flex-row md:items-end md:mt-12">
+            <p className="text-[12px] font-medium text-muted-foreground sm:text-[12.5px]">
               © {new Date().getFullYear()} BrandArx. All rights reserved.
             </p>
-            <div className="flex flex-col gap-3.5">
-              <p className="text-[15px] text-muted-foreground leading-[1.45]">
+            <div className="flex w-full flex-col gap-3 md:w-auto">
+              <p className="text-[13px] text-muted-foreground leading-[1.45] sm:text-[15px]">
                 AI moves fast.<br/>
-                <strong className="text-[19px] font-bold text-foreground">Stay ahead with BrandArx.</strong>
+                <strong className="text-[16px] font-bold text-foreground sm:text-[19px]">Stay ahead with BrandArx.</strong>
               </p>
-              <div className="flex w-full max-w-full sm:max-w-[310px] items-center rounded-xl border border-white/10 bg-background p-[5px]"
+              <div className="flex w-full items-center rounded-xl border border-white/10 bg-background p-[5px] md:max-w-[310px]"
                 style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
                 <input
                   type="email"
@@ -2709,8 +3558,36 @@ function ServicesOffering() {
   const active = SERVICES[activeIdx];
   const Icon = active.icon;
 
+  // ── Auto-cycle: advances through SERVICES on a fixed interval ──
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Use a ref for activeIdx so the interval callback always reads the latest value
+  const activeIdxRef = useRef(activeIdx);
+  useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
+
+  const startCycle = useCallback(() => {
+    if (intervalRef.current) return; // already running
+    intervalRef.current = setInterval(() => {
+      setActiveId(
+        SERVICES[(activeIdxRef.current + 1) % SERVICES.length].id as ServiceId
+      );
+    }, 3000);
+  }, []);
+
+  const stopCycle = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  // Start on mount, clean up on unmount
+  useEffect(() => {
+    startCycle();
+    return stopCycle;
+  }, [startCycle, stopCycle]);
+
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden py-14 sm:py-20 md:py-24 lg:py-32">
       {/* deep section background */}
       <div className="absolute inset-0 bg-[oklch(0.07_0.02_280)]" />
       {/* top fade from page bg */}
@@ -2726,17 +3603,17 @@ function ServicesOffering() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
 
         {/* ── Header ── */}
-        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between mb-14 sm:mb-16">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between mb-10 sm:mb-12 md:mb-14 lg:mb-16">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-violet-glow mb-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-violet-glow mb-2 sm:mb-3">
               Explore Our Offering
             </p>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
               What we do,{" "}
               <span className="text-gradient-fade">end to end</span>
             </h2>
           </div>
-          <p className="text-sm text-foreground/40 sm:text-right sm:max-w-[220px] leading-relaxed">
+          <p className="text-sm text-foreground/40 sm:text-right sm:max-w-[200px] leading-relaxed md:max-w-[220px]">
             {SERVICES.length} practice areas.<br className="hidden sm:block" />
             One integrated partner.
           </p>
@@ -2748,8 +3625,11 @@ function ServicesOffering() {
           {/* ── LEFT: tab list ── */}
           <nav
             aria-label="Service categories"
-            className="flex flex-row flex-wrap gap-2 p-2
-                       lg:flex-col lg:w-72 lg:shrink-0 lg:gap-0 lg:p-3
+            onMouseEnter={stopCycle}
+            onMouseLeave={startCycle}
+            className="flex flex-row flex-wrap gap-1.5 p-1.5
+                       sm:gap-2 sm:p-2
+                       lg:flex-col lg:w-64 lg:shrink-0 lg:gap-0 lg:p-3 xl:w-72
                        lg:border-r lg:border-white/[0.06]"
           >
             {SERVICES.map((s, i) => {
@@ -2758,10 +3638,10 @@ function ServicesOffering() {
               return (
                 <button
                   key={s.id}
-                  onClick={() => setActiveId(s.id)}
+                  onClick={() => { setActiveId(s.id as ServiceId); stopCycle(); startCycle(); }}
                   aria-current={isActive ? "true" : undefined}
                   className={[
-                    "group relative flex items-center gap-3 rounded-xl px-3.5 py-3 text-left text-sm font-medium transition-all duration-200 w-auto lg:w-full",
+                    "group relative flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 w-auto min-h-[44px] lg:w-full lg:px-3.5 lg:py-3",
                     isActive
                       ? "bg-white/[0.08] text-foreground"
                       : "text-foreground/45 hover:text-foreground/80 hover:bg-white/[0.04]",
@@ -2806,7 +3686,7 @@ function ServicesOffering() {
             {/* top accent line */}
             <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-glow/30 to-transparent" />
 
-            <div className="relative p-6 sm:p-10">
+            <div className="relative p-4 sm:p-7 md:p-8 lg:p-10">
 
               {/* ── Top meta row ── */}
               <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -2834,12 +3714,12 @@ function ServicesOffering() {
               </div>
 
               {/* ── Heading ── */}
-              <h3 className="relative mt-7 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl leading-[1.15]">
+              <h3 className="relative mt-5 text-xl font-bold tracking-tight text-foreground sm:text-2xl sm:mt-6 md:text-3xl lg:mt-7 lg:text-4xl leading-[1.15]">
                 {active.heading}
               </h3>
 
               {/* ── Body ── */}
-              <p className="relative mt-4 text-sm leading-relaxed text-foreground/55 sm:text-[15px] max-w-2xl">
+              <p className="relative mt-3 text-sm leading-relaxed text-foreground/55 sm:text-[15px] sm:mt-4 max-w-2xl">
                 {active.body}
               </p>
 
@@ -2914,7 +3794,6 @@ function Index() {
       <Hero />
       <LogoTicker />
       <BeforeAfterShowcase />
-      <ProductsGrid />
       <Features />
       <EncryptionModel />
       <DevSection />

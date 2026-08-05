@@ -68,11 +68,11 @@ function normalisePhone(phone: string): string {
 // looks up the canonical price. This prevents price-tampering attacks
 // where a client sends planPrice=1 instead of the real ₹3500.
 const PLAN_PRICES: Record<string, number> = {
-  'Starter':      3500,
-  'Professional': 7200,
-  // Annual prices (20% off)
-  'Starter-Annual':      2800,
-  'Professional-Annual': 5760,
+  'Starter':      18000,
+  'Professional': 49000,
+  // Annual prices (20% off — matches frontend billing toggle)
+  'Starter-Annual':      14400,
+  'Professional-Annual': 39200,
 }
 
 // Cashfree limits: minimum ₹1, maximum ₹5,00,000 per transaction

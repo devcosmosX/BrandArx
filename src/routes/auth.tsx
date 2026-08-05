@@ -109,7 +109,7 @@ function AuthRouteComponent() {
 
           {/* Heading */}
           <div className="space-y-2">
-            <h1 className="text-4xl font-medium tracking-tight text-white whitespace-nowrap">
+            <h1 className="text-3xl font-medium tracking-tight text-white">
               {activeTab === 'signup' ? 'Join BrandArx' : 'Welcome Back'}
             </h1>
             <p className="text-white/60 text-sm leading-relaxed">

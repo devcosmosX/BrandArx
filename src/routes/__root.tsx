@@ -86,6 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Full-service digital agency specializing in custom website development, AI automation, UI/UX design, and growth marketing. Transform your business with cutting-edge solutions.",
       },
+      // Open Graph
       { property: "og:title", content: "BrandArx — Web Development & AI Automation Agency" },
       {
         property: "og:description",
@@ -93,15 +94,43 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Expert web development, AI chatbots, automation, and digital marketing services. Build, automate, and grow your business with BrandArx.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://brandarx.com/" },
+      { property: "og:image", content: "https://brandarx.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      // Twitter / X card
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "BrandArx — Web Development & AI Automation Agency" },
+      {
+        name: "twitter:description",
+        content:
+          "Expert web development, AI chatbots, automation, and digital marketing services. Build, automate, and grow your business with BrandArx.",
+      },
+      { name: "twitter:image", content: "https://brandarx.com/og-image.png" },
+      // SEO controls
+      { name: "robots", content: "index, follow" },
       { name: "keywords", content: "web development, AI automation, chatbot development, UI/UX design, SEO services, digital agency, website design, e-commerce development, SaaS development, AI agents" },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
+      // Preconnect to Google Fonts to eliminate round-trip latency
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      // DNS prefetch as a fallback for older browsers
+      { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+      // Preload the font stylesheet so the browser discovers it early
+      {
+        rel: "preload",
+        as: "style",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap",
+      },
+      // Actual font stylesheet with display=swap already present
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap",
       },
+      // Canonical URL
+      { rel: "canonical", href: "https://brandarx.com/" },
+      { rel: "stylesheet", href: appCss },
     ],
   }),
   shellComponent: RootShell,

@@ -51,12 +51,12 @@ function PaymentStatus() {
   const isPending = !status || status === 'PENDING' || status === 'ACTIVE'
 
   return (
-    <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-6">
+    <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-4 sm:p-6">
       {/* Ambient glow */}
       <div className="pointer-events-none fixed inset-0 [background:radial-gradient(ellipse_70%_50%_at_50%_30%,oklch(0.62_0.22_290_/_0.1),transparent_60%)]" />
 
       <div className="relative w-full max-w-md">
-        <div className="rounded-2xl border border-white/10 bg-[oklch(0.15_0.05_280)] p-8 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
+        <div className="rounded-2xl border border-white/10 bg-[oklch(0.15_0.05_280)] p-5 sm:p-8 shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
 
           {/* Loading / Polling */}
           {(loading || isPending) && (
@@ -126,7 +126,7 @@ function PaymentStatus() {
               </p>
 
               <Link to="/"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-white via-white/90 to-[oklch(0.85_0.12_290)] px-6 py-3 text-sm font-semibold text-[oklch(0.15_0.05_280)] shadow-lg transition hover:brightness-105">
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-white via-white/90 to-[oklch(0.85_0.12_290)] px-6 py-3 min-h-[44px] text-sm font-semibold text-[oklch(0.15_0.05_280)] shadow-lg transition hover:brightness-105">
                 Back to Home <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
